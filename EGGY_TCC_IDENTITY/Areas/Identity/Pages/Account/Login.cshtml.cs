@@ -95,7 +95,7 @@ namespace EGGY_TCC_IDENTITY.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Login inválido.");
+                    ModelState.AddModelError(string.Empty, "Login ou senha inválidos.");
                     return Page();
                 }
             }
