@@ -1,0 +1,86 @@
+﻿@model EGGY_TCC_IDENTITY.ViewModels.OngViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Cadastrar</h1>
+
+<h4>Ong</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Representante" class="control-label"></label>
+                <input asp-for="Representante" class="form-control" required />
+                <span asp-validation-for="Representante" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" required />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Telefone" class="control-label"></label>
+                <input asp-for="Telefone" class="form-control" required />
+                <span asp-validation-for="Telefone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CNPJ" class="control-label"></label>
+                <input asp-for="CNPJ" class="form-control" required />
+                <span asp-validation-for="CNPJ" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RazaoSocial" class="control-label"></label>
+                <input asp-for="RazaoSocial" class="form-control" required />
+                <span asp-validation-for="RazaoSocial" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NomeFantasia" class="control-label"></label>
+                <input asp-for="NomeFantasia" class="form-control" required />
+                <span asp-validation-for="NomeFantasia" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="UsuarioAdm.DE_SENHA" class="control-label"></label>
+                <input asp-for="UsuarioAdm.DE_SENHA" class="form-control" required />
+                <span asp-validation-for="UsuarioAdm.DE_SENHA" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsuarioAdm.DE_CONFIRMA_SENHA" class="control-label"></label>
+                <input asp-for="UsuarioAdm.DE_CONFIRMA_SENHA" class="form-control" required />
+                <span asp-validation-for="UsuarioAdm.DE_CONFIRMA_SENHA" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsuarioAdm.DE_LOGIN" class="control-label"></label>
+                <input asp-for="UsuarioAdm.DE_LOGIN" class="form-control" required />
+                <span asp-validation-for="UsuarioAdm.DE_LOGIN" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsuarioAdm.DE_NOME" class="control-label"></label>
+                <input asp-for="UsuarioAdm.DE_NOME" class="form-control" required />
+                <span asp-validation-for="UsuarioAdm.DE_NOME" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsuarioAdm.DE_EMAIL" class="control-label"></label>
+                <input asp-for="UsuarioAdm.DE_EMAIL" class="form-control" required />
+                <span asp-validation-for="UsuarioAdm.DE_EMAIL" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label asp-for="BL_RECEBE_NOVIDADE" class="form-check-label">
+                    <input class="form-check-input" asp-for="BL_RECEBE_NOVIDADE" /> @Html.DisplayNameFor(model => model.BL_RECEBE_NOVIDADE)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Cadastrar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Voltar</a>
+</div>
+

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<EGGY_TCC_IDENTITY.ViewModels.UsuarioViewModel>
+
+@{
+    ViewData["Title"] = "Pagina";
+}
+
+<h1>Apoiadores</h1>
+
+<p>
+    <a asp-action="Create">Cadastrar</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DE_NOME)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DE_LOGIN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DE_EMAIL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DT_CADASTRO)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DT_ALTERACAO)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DE_NOME)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DE_LOGIN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DE_EMAIL)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DT_CADASTRO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DT_ALTERACAO)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID_USUARIO">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.ID_USUARIO">Visualizar</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID_USUARIO">Excluir</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,15 @@
+﻿@model EGGY_TCC_IDENTITY.ViewModels.ErrorViewModel
+
+@{
+    ViewData["Title"] = "Erro Page";
+}
+<h1>Ocorreu um erro inesperado</h1>
+<div>
+    <img style="max-height: 350px; max-width: 800px;" src="~/Imagens/Erro.png" alt="Erro" />
+</div>
+<h3>Não se preocupe, estamos trabalhando para corrigir!</h3>
+<button onclick="Open('stack')">Detalhar Erro</button>
+<div id="stack" style="display:none">
+    
+</div>
+

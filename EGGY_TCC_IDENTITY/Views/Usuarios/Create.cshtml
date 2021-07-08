@@ -1,0 +1,55 @@
+﻿@model EGGY_TCC_IDENTITY.ViewModels.UsuarioViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Cadastrar</h1>
+
+<h4>Apoiadores</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DE_SENHA" class="control-label"></label>
+                <input asp-for="DE_SENHA" class="form-control" required />
+                <span asp-validation-for="DE_SENHA" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DE_CONFIRMA_SENHA" class="control-label"></label>
+                <input asp-for="DE_CONFIRMA_SENHA" class="form-control" required />
+                <span asp-validation-for="DE_CONFIRMA_SENHA" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DE_LOGIN" class="control-label"></label>
+                <input asp-for="DE_LOGIN" class="form-control" required />
+                <span asp-validation-for="DE_LOGIN" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DE_NOME" class="control-label"></label>
+                <input asp-for="DE_NOME" class="form-control" required />
+                <span asp-validation-for="DE_NOME" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DE_EMAIL" class="control-label"></label>
+                <input asp-for="DE_EMAIL" class="form-control" required />
+                <span asp-validation-for="DE_EMAIL" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label asp-for="BL_RECEBE_NOVIDADE" class="form-check-label">
+                    <input class="form-check-input" asp-for="BL_RECEBE_NOVIDADE" /> @Html.DisplayNameFor(model => model.BL_RECEBE_NOVIDADE)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Cadastrar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Voltar</a>
+</div>
+

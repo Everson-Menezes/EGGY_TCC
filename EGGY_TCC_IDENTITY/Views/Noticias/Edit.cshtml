@@ -1,0 +1,56 @@
+﻿@model EGGY_TCC_IDENTITY.ViewModels.NoticiaViewModel
+
+@{
+    ViewData["Title"] = "Edição";
+}
+
+<h1>Editar</h1>
+
+<h4>Noticia</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID_Noticia" />
+            <input type="hidden" asp-for="ID_Imagem" />
+            <input type="hidden" asp-for="ID_Ong" />
+            <div class="form-group">
+                <label asp-for="Titulo" class="control-label"></label>
+                <input asp-for="Titulo" class="form-control" required />
+                <span asp-validation-for="Titulo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Conteudo" class="control-label"></label>
+                <input asp-for="Conteudo" class="form-control" required />
+                <span asp-validation-for="Conteudo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataPostagem" class="control-label"></label>
+                <input asp-for="DataPostagem" class="form-control" required />
+                <span asp-validation-for="DataPostagem" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ID_Ong" class="control-label"></label>
+                <input asp-for="Ong.DE_NOME_FANTASIA" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label asp-for="Num_Curtidas" class="control-label"></label>
+                <input asp-for="Num_Curtidas" class="form-control" disabled />
+                <span asp-validation-for="Num_Curtidas" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ID_Imagem" class="control-label"></label>
+                <input asp-for="Imagem.DE_TITULO" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Voltar</a>
+</div>
+

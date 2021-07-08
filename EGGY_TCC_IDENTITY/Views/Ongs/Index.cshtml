@@ -1,0 +1,64 @@
+﻿@model IEnumerable<EGGY_TCC_IDENTITY.ViewModels.OngViewModel>
+
+@{
+    ViewData["Title"] = "Gerenciamento de ONGs";
+}
+
+<h1>ONG's</h1>
+<p>
+    <a asp-action="Create">Cadastrar</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Representante)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Telefone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CNPJ)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RazaoSocial)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NomeFantasia)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Representante)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CNPJ)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RazaoSocial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomeFantasia)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID_Ong">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.ID_Ong">Visualizar</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID_Ong">Excluir</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

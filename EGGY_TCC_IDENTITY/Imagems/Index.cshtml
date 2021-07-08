@@ -1,0 +1,39 @@
+﻿@model IEnumerable<EGGY_TCC_IDENTITY.ViewModels.ImagemViewModel>
+
+@{
+    ViewData["Title"] = "Pagina";
+}
+
+<h1>Imagens</h1>
+
+<p>
+    <a asp-action="Create">Cadastrar</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Titulo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Arquivo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titulo)
+            </td>
+            <td>
+                <img style="max-width:100px; max-height:100px;" src="@item.imagemString" alt="@item.Titulo" />
+            </td>
+            <td>
+                <a asp-action="Delete" asp-route-id="@item.ID_Imagem">Excluir</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,8 +1,98 @@
-﻿@{
+﻿@model IEnumerable<EGGY_TCC_IDENTITY.ViewModels.HomeViewModel>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="home-destaques">
+    
+    <section id="home-item1">
+
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    @if (Model.ElementAtOrDefault(0) != null)
+                    {
+                        <img src="@Model.ElementAt(0).Imagem.imagemString" alt="@Model.ElementAt(0).Titulo.ToString()" />
+                    }
+                    else
+                    {
+                        <img src="~/Imagens/noticia.png" alt="Noticia" />
+                    }
+                </div>
+                <div class="carousel-item">
+                    @if (Model.ElementAtOrDefault(1) != null)
+                    {
+                        <img src="@Model.ElementAt(1).Imagem.imagemString" alt="@Model.ElementAt(1).Titulo.ToString()" />
+                    }
+                    else
+                    {
+                        <img src="~/Imagens/noticia.png" alt="Noticia" />
+                    }
+                </div>
+                <div class="carousel-item">
+                    @if (Model.ElementAtOrDefault(2) != null)
+                    {
+                        <img src="@Model.ElementAt(2).Imagem.imagemString" alt="@Model.ElementAt(2).Titulo.ToString()" />
+                    }
+                    else
+                    {
+                        <img src="~/Imagens/noticia.png" alt="Noticia" />
+                    }
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Anterior</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Próximo</span>
+            </a>
+        </div>
+
+    </section>
+
+    <section class="home-item">
+        @if (Model.ElementAtOrDefault(3) != null)
+        {
+            <img src="@Model.ElementAt(3).Imagem.imagemString" alt="@Model.ElementAt(3).Titulo.ToString()" />
+        }
+        else
+        {
+            <img src="~/Imagens/noticia.png" alt="Noticia" />
+        }
+    </section>
+
+    <section class="home-item" id="home-item3">
+        @if (Model.ElementAtOrDefault(4) != null)
+        {
+            <img src="@Model.ElementAt(4).Imagem.imagemString" alt="@Model.ElementAt(4).Titulo.ToString()" />
+        }
+        else
+        {
+            <img src="~/Imagens/noticia.png" alt="Noticia" />
+        }
+    </section>
+     
+        <section class="home-item" id="home-item4">
+         @if (Model.ElementAtOrDefault(5) != null)
+         {
+             <img src="@Model.ElementAt(5).Imagem.imagemString" alt="@Model.ElementAt(5).Titulo.ToString()" />
+         }
+         else 
+            { 
+             <img src="~/Imagens/noticia.png" alt="Noticia" />
+            }
+        </section>
+
+        <section id="home-item5">
+            
+                @foreach (var item in Model.OrderBy(x => x.Ong.NomeFantasia))
+                {                    
+                        <div class="grid-ong-noticia">
+                            @Html.DisplayFor(modelItem => item.Ong.NomeFantasia)
+                        </div>
+                }
+        </section>
+    </section>

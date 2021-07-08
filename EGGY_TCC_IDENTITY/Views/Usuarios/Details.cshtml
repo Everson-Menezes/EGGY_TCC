@@ -1,0 +1,44 @@
+﻿@model EGGY_TCC_IDENTITY.ViewModels.UsuarioViewModel
+
+@{
+    ViewData["Title"] = "Detalhes";
+}
+
+<h1>Visualizar</h1>
+
+<div>
+    <h4>Apoiador</h4>
+    <hr />
+    <dl class="row">
+        
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.DE_SENHA)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DE_SENHA)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.DE_LOGIN)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DE_LOGIN)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.DE_NOME)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DE_NOME)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.DE_EMAIL)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DE_EMAIL)
+        </dd>
+        
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID_USUARIO">Editar</a> |
+    <a asp-action="Index">Voltar</a>
+</div>

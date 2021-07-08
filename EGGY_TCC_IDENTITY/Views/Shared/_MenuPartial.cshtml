@@ -1,0 +1,54 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<ul class="navbar-nav flex-grow-1">
+
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Home" asp-action="About">Sobre</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Home" asp-action="Sistema">Sistema</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="OngHome">ONG's</a>
+        </li>
+        if (User.Identity.Name.Contains("Everson"))
+        {
+            
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbardrop" data-toggle="dropdown">
+                    Painel
+                </a>
+                <div class="dropdown-menu">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Ongs" asp-action="Index">ONGs</a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">Apoiadores</a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Noticias" asp-action="Index">Notícias</a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Imagems" asp-action="Index">Imagens</a>
+                </div>
+            </li>
+
+        }
+
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Home" asp-action="About">Sobre</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Home" asp-action="Sistema">Sistema</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacidade</a>
+        </li>
+    }
+</ul>
