@@ -1,0 +1,23 @@
+﻿@model EGGY_TCC_IDENTITY.ViewModels.RoleViewModels
+@{
+    ViewBag.Title = "Cria Novo Perfil";
+}
+<h3>Criar Perfil</h3>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="All" class="text-danger">
+            </div>
+            <div class="form-group">
+                <label asp-for="Perfil" class="control-label"></label>
+                <input asp-for="Perfil" class="form-control" required />
+                <span asp-validation-for="Perfil" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Cadastrar"/>
+                    
+            </div>
+        </form>
+    </div>
+</div>
+

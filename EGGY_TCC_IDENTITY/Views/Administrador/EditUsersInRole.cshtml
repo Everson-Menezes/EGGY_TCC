@@ -1,0 +1,40 @@
+﻿@model List<EGGY_TCC_IDENTITY.ViewModels.UsuarioPerfilViewModel>
+@{
+    var roleId = ViewBag.roleId;
+}
+<form method="post">
+    <div class="card">
+        <div class="card-header">
+            <h2>Incluir ou remover usuários desta role</h2>
+        </div>
+        <div class="card-body">
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                Model[i].roleId = roleId;
+                <div class="form-check m-1">
+                    <input type="hidden" asp-for="@Model[i].UserId" />
+                    <input type="hidden" asp-for="@Model[i].UserName" />
+                    <input type="hidden" asp-for="@Model[i].roleId" />
+                    <input asp-for="@Model[i].IsSelected" class="form-check-input" />
+                    <label class="form-check-label" asp-for="@Model[i].IsSelected">
+                        @Model[i].UserName
+                    </label>
+                </div>
+            }
+        </div>
+        <div class="card-footer">
+            <input type="submit" value="Atualizar" class="btn btn-primary" style="width:auto" />
+            <a asp-action="Edit" asp-controller="Administrador" asp-route-roleId="@roleId"
+               class="btn btn-primary" style="width:auto">Cancelar</a>
+        </div>
+    </div>
+</form>
+Agora precisamos ajustar o código da view EditRole e definir no botão Incluir/Remover Usuário a chamada ao método Action EditUsersInRole no controlador Administration passando o ID da role :
+
+...
+<div class="card-footer">
+    <a asp-controller="Administration" asp-action="EditUsersInRole"
+       asp-route-roleId="@roleId" class="btn btn-primary">
+        Incluir/Remover Usuário da Role
+    </a>
+</div>

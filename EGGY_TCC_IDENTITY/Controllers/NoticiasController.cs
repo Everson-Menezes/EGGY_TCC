@@ -9,9 +9,11 @@ using EGGY_TCC_IDENTITY.Data;
 using EGGY_TCC_IDENTITY.Models;
 using EGGY_TCC_IDENTITY.ViewModels;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EGGY_TCC_IDENTITY.Controllers
 {
+    [Authorize]
     public class NoticiasController : Controller
     {
         private readonly ApplicationDbContext _context;

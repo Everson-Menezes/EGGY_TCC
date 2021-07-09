@@ -1,6 +1,7 @@
 ﻿using EGGY_TCC_IDENTITY.Data;
 using EGGY_TCC_IDENTITY.Models;
 using EGGY_TCC_IDENTITY.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -68,6 +69,7 @@ namespace EGGY_TCC_IDENTITY.Controllers
         {
             return View();
         }
+        [Authorize]
         public IActionResult OngHome()
         {
             return View();

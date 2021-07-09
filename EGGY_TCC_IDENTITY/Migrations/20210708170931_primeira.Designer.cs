@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace EGGY_TCC_IDENTITY.Data.Migrations
+namespace EGGY_TCC_IDENTITY.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210706210619_primeira")]
+    [Migration("20210708170931_primeira")]
     partial class primeira
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

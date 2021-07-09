@@ -9,9 +9,11 @@ using EGGY_TCC_IDENTITY.Data;
 using EGGY_TCC_IDENTITY.Models;
 using EGGY_TCC_IDENTITY.ViewModels;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EGGY_TCC_IDENTITY.Controllers
 {
+    [Authorize]
     public class OngsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -71,7 +73,7 @@ namespace EGGY_TCC_IDENTITY.Controllers
 
             return View(ongViewModel);
         }
-
+        [AllowAnonymous]
         // GET: Ongs/Create
         public IActionResult Create()
         {
@@ -83,7 +85,7 @@ namespace EGGY_TCC_IDENTITY.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> Create(OngViewModel ongViewModel)
         {
 

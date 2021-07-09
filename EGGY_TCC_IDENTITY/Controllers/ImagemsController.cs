@@ -12,9 +12,11 @@ using System;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EGGY_TCC_IDENTITY.Controllers
 {
+    [Authorize]
     public class ImagemsController : Controller
     {
         private readonly ApplicationDbContext _context;

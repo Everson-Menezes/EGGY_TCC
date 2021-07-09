@@ -10,9 +10,11 @@ using EGGY_TCC_IDENTITY.Models;
 using EGGY_TCC_IDENTITY.ViewModels;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EGGY_TCC_IDENTITY.Controllers
 {
+    [Authorize]
     public class UsuariosController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -73,13 +75,13 @@ namespace EGGY_TCC_IDENTITY.Controllers
             usuarioViewModel.DT_ALTERACAO = usuario.DT_ALTERACAO;
             return View(usuarioViewModel);
         }
-
+        [AllowAnonymous]
         // GET: Usuarios/Create
         public IActionResult Create()
         {
             return View();
         }
-
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Create(UsuarioViewModel usuarioViewModel)
         {
@@ -133,35 +135,35 @@ namespace EGGY_TCC_IDENTITY.Controllers
         // POST: Usuarios/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-    /*    [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(UsuarioViewModel usuarioViewModel)
-        {
-            if (ModelState.IsValid)
+        /*    [HttpPost]
+            [ValidateAntiForgeryToken]
+            public async Task<IActionResult> Create(UsuarioViewModel usuarioViewModel)
             {
-                TB_USUARIO usuario = new TB_USUARIO();
-                TB_APOIADOR apoiador = new TB_APOIADOR();
+                if (ModelState.IsValid)
+                {
+                    TB_USUARIO usuario = new TB_USUARIO();
+                    TB_APOIADOR apoiador = new TB_APOIADOR();
 
-                apoiador.DE_NOME = usuario.DE_NOME = usuarioViewModel.DE_NOME;
-                usuario.DE_SENHA = usuarioViewModel.DE_SENHA;
-                usuario.DE_LOGIN = usuarioViewModel.DE_LOGIN;
-                apoiador.DE_EMAIL = usuario.DE_EMAIL = usuarioViewModel.DE_EMAIL;
-                apoiador.DT_CADASTRO = usuario.DT_CADASTRO = DateTime.Now;
-                apoiador.DT_ALTERACAO = usuario.DT_ALTERACAO = DateTime.Now;
-                apoiador.DT_INATIVACAO = usuario.DT_INATIVACAO = null;
-                apoiador.BL_RECEBE_NOVIDADE = usuarioViewModel.BL_RECEBE_NOVIDADE;
-                _context.Add(apoiador);
-                _context.Add(usuario);
-                await _context.SaveChangesAsync();
-                apoiador.ID_USUARIO = usuario.ID_USUARIO;
-                usuario.ID_APOIADOR = apoiador.ID_APOIADOR;
-                _context.Update(apoiador);
-                _context.Update(usuario);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(usuarioViewModel);
-        }*/
+                    apoiador.DE_NOME = usuario.DE_NOME = usuarioViewModel.DE_NOME;
+                    usuario.DE_SENHA = usuarioViewModel.DE_SENHA;
+                    usuario.DE_LOGIN = usuarioViewModel.DE_LOGIN;
+                    apoiador.DE_EMAIL = usuario.DE_EMAIL = usuarioViewModel.DE_EMAIL;
+                    apoiador.DT_CADASTRO = usuario.DT_CADASTRO = DateTime.Now;
+                    apoiador.DT_ALTERACAO = usuario.DT_ALTERACAO = DateTime.Now;
+                    apoiador.DT_INATIVACAO = usuario.DT_INATIVACAO = null;
+                    apoiador.BL_RECEBE_NOVIDADE = usuarioViewModel.BL_RECEBE_NOVIDADE;
+                    _context.Add(apoiador);
+                    _context.Add(usuario);
+                    await _context.SaveChangesAsync();
+                    apoiador.ID_USUARIO = usuario.ID_USUARIO;
+                    usuario.ID_APOIADOR = apoiador.ID_APOIADOR;
+                    _context.Update(apoiador);
+                    _context.Update(usuario);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(usuarioViewModel);
+            }*/
 
         // GET: Usuarios/Edit/5
         public async Task<IActionResult> Edit(int? id)
