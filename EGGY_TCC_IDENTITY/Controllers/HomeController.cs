@@ -69,7 +69,7 @@ namespace EGGY_TCC_IDENTITY.Controllers
         {
             return View();
         }
-        [Authorize]
+        [Authorize(Roles = "Master, Avançado, Básico")]
         public IActionResult OngHome()
         {
             return View();

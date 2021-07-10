@@ -1,29 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using EGGY_TCC_IDENTITY.Data;
+using EGGY_TCC_IDENTITY.Models;
+using EGGY_TCC_IDENTITY.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using EGGY_TCC_IDENTITY.Data;
-using EGGY_TCC_IDENTITY.Models;
-using EGGY_TCC_IDENTITY.ViewModels;
-using System.Diagnostics;
-using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EGGY_TCC_IDENTITY.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Master, Avançado")]
     public class OngsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public OngsController(ApplicationDbContext context)
+        public OngsController(ApplicationDbContext context, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<IdentityUser> signInManager)
         {
             _context = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _signInManager = signInManager;
         }
 
         // GET: Ongs
+        [Authorize(Roles = "Master")]
         public IActionResult Index()
         {
             var ongs = _context.TB_ONG;
@@ -45,16 +52,24 @@ namespace EGGY_TCC_IDENTITY.Controllers
             return View(ongViewModel);
         }
 
-        // GET: Ongs/Details/5
         public IActionResult Details(int? id)
         {
+            int idUsuario = _context.TB_USUARIO.Where(x => x.DE_LOGIN.Equals(User.Identity.Name)).Select(x => x.ID_USUARIO).FirstOrDefault();
+            int? idOng = _context.TB_ONG.Where(x => x.ID_USUARIO_ADM == idUsuario).Select(x => x.ID_ONG).FirstOrDefault();
             if (id == null)
             {
-                return NotFound();
+                RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                if (idOng == null)
+                {
+                    RedirectToAction("Index", "Home");
+                }
             }
 
-            var ong = _context.TB_ONG.FirstOrDefault(m => m.ID_ONG == id);
-            ong.DE_LOGIN_USUARIO_ADM = _context.TB_ONG.Where(x => x.ID_ONG == id).Select(x => x.DE_LOGIN_USUARIO_ADM).FirstOrDefault();
+            var ong = (id != null) ? _context.TB_ONG.FirstOrDefault(m => m.ID_ONG == id) : _context.TB_ONG.FirstOrDefault(m => m.ID_ONG == idOng);
+            ong.DE_LOGIN_USUARIO_ADM = (id != null) ? _context.TB_ONG.Where(x => x.ID_ONG == id).Select(x => x.DE_LOGIN_USUARIO_ADM).FirstOrDefault() : _context.TB_ONG.Where(x => x.ID_ONG == idOng).Select(x => x.DE_LOGIN_USUARIO_ADM).FirstOrDefault();
             if (ong == null)
             {
                 return NotFound();
@@ -73,6 +88,7 @@ namespace EGGY_TCC_IDENTITY.Controllers
 
             return View(ongViewModel);
         }
+
         [AllowAnonymous]
         // GET: Ongs/Create
         public IActionResult Create()
@@ -91,44 +107,58 @@ namespace EGGY_TCC_IDENTITY.Controllers
 
             if (ModelState.IsValid)
             {
-                TB_ONG ong = new TB_ONG();
-                TB_USUARIO usuario = new TB_USUARIO();
-                TB_APOIADOR apoiador = new TB_APOIADOR();
+                var user = new IdentityUser();
 
-                ong.DE_REPRESENTANTE = ongViewModel.Representante;
-                ong.DE_EMAIL = ongViewModel.Email;
-                ong.DE_TELEFONE = ongViewModel.Telefone;
-                ong.DE_CNPJ = ongViewModel.CNPJ;
-                ong.DE_RAZAO_SOCIAL = ongViewModel.RazaoSocial;
-                ong.DE_NOME_FANTASIA = ongViewModel.NomeFantasia;
-                ong.DT_CADASTRO = DateTime.Now;
-                ong.DT_ALTERACAO = DateTime.Now;
-                ong.DT_INATIVACAO = null;
-                ong.ID_STATUS = 1;
-                usuario.DE_SENHA = ongViewModel.UsuarioAdm.DE_SENHA;
-                ong.DE_LOGIN_USUARIO_ADM = usuario.DE_LOGIN = ongViewModel.UsuarioAdm.DE_LOGIN;
-                apoiador.DE_NOME = usuario.DE_NOME = ongViewModel.UsuarioAdm.DE_NOME;
-                apoiador.DE_EMAIL = usuario.DE_EMAIL = ongViewModel.UsuarioAdm.DE_EMAIL;
-                apoiador.DT_CADASTRO = usuario.DT_CADASTRO = DateTime.Now;
-                apoiador.DT_ALTERACAO = usuario.DT_ALTERACAO = DateTime.Now;
-                apoiador.DT_INATIVACAO = usuario.DT_INATIVACAO = null;
-                usuario.ID_STATUS = 1;
-                apoiador.BL_RECEBE_NOVIDADE = ongViewModel.BL_RECEBE_NOVIDADE;
-                _context.Add(usuario);
-                _context.Add(apoiador);
-                await _context.SaveChangesAsync();
-                ong.ID_USUARIO_ADM = apoiador.ID_USUARIO = usuario.ID_USUARIO;
-                usuario.ID_APOIADOR = apoiador.ID_APOIADOR;
-                _context.Add(ong);
-                _context.Update(usuario);
-                _context.Update(apoiador);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                user.UserName = ongViewModel.UsuarioAdm.DE_LOGIN;
+                user.Email = ongViewModel.UsuarioAdm.DE_EMAIL;
+                user.PasswordHash = ongViewModel.UsuarioAdm.DE_SENHA;
+                // Armazena os dados do usuário na tabela AspNetUsers
+                var resultado = await _userManager.CreateAsync(user, user.PasswordHash);
+
+                if (resultado.Succeeded)
+                {
+                    var role = await _roleManager.FindByIdAsync("c89dd03e-3405-4a74-ac9a-e4817bee4119");
+                    await _userManager.AddToRoleAsync(user, role.Name);
+                    TB_ONG ong = new TB_ONG();
+                    TB_USUARIO usuario = new TB_USUARIO();
+                    TB_APOIADOR apoiador = new TB_APOIADOR();
+
+                    ong.DE_REPRESENTANTE = ongViewModel.Representante;
+                    ong.DE_EMAIL = ongViewModel.Email;
+                    ong.DE_TELEFONE = ongViewModel.Telefone;
+                    ong.DE_CNPJ = ongViewModel.CNPJ;
+                    ong.DE_RAZAO_SOCIAL = ongViewModel.RazaoSocial;
+                    ong.DE_NOME_FANTASIA = ongViewModel.NomeFantasia;
+                    ong.DT_CADASTRO = DateTime.Now;
+                    ong.DT_ALTERACAO = DateTime.Now;
+                    ong.DT_INATIVACAO = null;
+                    ong.ID_STATUS = 1;
+                    usuario.DE_SENHA = ongViewModel.UsuarioAdm.DE_SENHA;
+                    ong.DE_LOGIN_USUARIO_ADM = usuario.DE_LOGIN = ongViewModel.UsuarioAdm.DE_LOGIN;
+                    apoiador.DE_NOME = usuario.DE_NOME = ongViewModel.UsuarioAdm.DE_NOME;
+                    apoiador.DE_EMAIL = usuario.DE_EMAIL = ongViewModel.UsuarioAdm.DE_EMAIL;
+                    apoiador.DT_CADASTRO = usuario.DT_CADASTRO = DateTime.Now;
+                    apoiador.DT_ALTERACAO = usuario.DT_ALTERACAO = DateTime.Now;
+                    apoiador.DT_INATIVACAO = usuario.DT_INATIVACAO = null;
+                    usuario.ID_STATUS = 1;
+                    apoiador.BL_RECEBE_NOVIDADE = ongViewModel.BL_RECEBE_NOVIDADE;
+                    _context.Add(usuario);
+                    _context.Add(apoiador);
+                    await _context.SaveChangesAsync();
+                    ong.ID_USUARIO_ADM = apoiador.ID_USUARIO = usuario.ID_USUARIO;
+                    usuario.ID_APOIADOR = apoiador.ID_APOIADOR;
+                    _context.Add(ong);
+                    _context.Update(usuario);
+                    _context.Update(apoiador);
+                    await _context.SaveChangesAsync();
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Index", "Home");
+                }
+
             }
             return View(ongViewModel);
         }
 
-        // GET: Ongs/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -208,8 +238,7 @@ namespace EGGY_TCC_IDENTITY.Controllers
             }
             return View(ongViewModel);
         }
-
-        // GET: Ongs/Delete/5
+        [Authorize(Roles = "Master")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -237,8 +266,7 @@ namespace EGGY_TCC_IDENTITY.Controllers
             ong.DT_ALTERACAO = ong.DT_ALTERACAO;
             return View(ongViewModel);
         }
-
-        // POST: Ongs/Delete/5
+        [Authorize(Roles = "Master")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

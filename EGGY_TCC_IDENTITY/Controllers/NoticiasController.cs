@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace EGGY_TCC_IDENTITY.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Master, Avançado")]
     public class NoticiasController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -23,7 +23,7 @@ namespace EGGY_TCC_IDENTITY.Controllers
             _context = context;
         }
 
-        // GET: Noticias
+        [Authorize(Roles = "Master, Básico, Avançado")]
         public IActionResult Index()
         {
             var noticias = _context.TB_NOTICIA;
@@ -46,7 +46,7 @@ namespace EGGY_TCC_IDENTITY.Controllers
             return View(noticiaViewModels);
         }
 
-        // GET: Noticias/Details/5
+        [Authorize(Roles = "Master, Básico, Avançado")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -74,7 +74,7 @@ namespace EGGY_TCC_IDENTITY.Controllers
             return View(noticiaViewModel);
         }
 
-        // GET: Noticias/Create
+        
         public IActionResult Create()
         {
             ViewData["ID_Imagem"] = new SelectList(_context.TB_IMAGEM, "ID_IMAGEM", "DE_TITULO");

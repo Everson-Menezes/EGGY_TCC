@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace EGGY_TCC_IDENTITY.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Master, Avançado")]
     public class ImagemsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -26,7 +26,7 @@ namespace EGGY_TCC_IDENTITY.Controllers
             _context = context;
         }
 
-        // GET: Imagems
+        [Authorize(Roles = "Master")]
         public async Task<IActionResult> Index()
         {
             IList<ImagemViewModel> imagemViewModel = new List<ImagemViewModel>();

@@ -14,19 +14,21 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace EGGY_TCC_IDENTITY.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Master")]
     public class UsuariosController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public UsuariosController(ApplicationDbContext context, UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
         // GET: Usuarios
@@ -100,6 +102,8 @@ namespace EGGY_TCC_IDENTITY.Controllers
                 // usando o serviço SignInManager e redireciona para o Método Action Index
                 if (resultado.Succeeded)
                 {
+                    var role = await _roleManager.FindByIdAsync("858d6f98-9229-4833-9009-a0dd29fb11cc");
+                    await _userManager.AddToRoleAsync(user, role.Name);
                     TB_USUARIO usuario = new TB_USUARIO();
                     TB_APOIADOR apoiador = new TB_APOIADOR();
 

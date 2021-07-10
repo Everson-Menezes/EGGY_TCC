@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EGGY_TCC_IDENTITY.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Master")]
     public class AdministradorController : Controller
     {
         private readonly ApplicationDbContext _context;
