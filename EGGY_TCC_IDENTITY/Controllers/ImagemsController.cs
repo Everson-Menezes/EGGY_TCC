@@ -84,30 +84,34 @@ namespace EGGY_TCC_IDENTITY.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ImagemViewModel imagemViewModel)
         {
+
             if (ModelState.IsValid)
             {
-                TB_IMAGEM imagem = new TB_IMAGEM();
-                /*int posicao = imagemViewModel.Arquivo.FileName.IndexOf(".");
-                var extensao = imagemViewModel.Arquivo.FileName.Substring(posicao);
-                var contentDisposition = imagemViewModel.Arquivo.ContentDisposition;
-                var contentType = imagemViewModel.Arquivo.ContentType;*/
+                var usuarioLogado = User.Identity.Name;
+                int idUsuario = _context.TB_USUARIO.Where(x => x.DE_LOGIN.Equals(usuarioLogado)).Select(x => x.ID_USUARIO).FirstOrDefault();
+                int idOng = _context.TB_ONG.Where(x => x.ID_USUARIO_ADM == idUsuario).Select(x => x.ID_ONG).FirstOrDefault();
+                if (idOng != 0)
+                {
 
-                imagem.DE_TITULO = imagemViewModel.Titulo;
-                imagem.ID_ONG = 1;//usuario que incluir a imagem
+                    TB_IMAGEM imagem = new TB_IMAGEM();
 
-                if (imagemViewModel.Arquivo.Length > 0)
-                {                    
-                    //Leitura dos binarios
-                    using (BinaryReader br = new BinaryReader(imagemViewModel.Arquivo.OpenReadStream()))
+                    imagem.DE_TITULO = imagemViewModel.Titulo;
+                    imagem.ID_ONG = idOng;
+
+                    if (imagemViewModel.Arquivo.Length > 0)
                     {
-                        // Converte o arquivo em bytes
-                        imagem.ARQUIVO = br.ReadBytes((int)imagemViewModel.Arquivo.OpenReadStream().Length);
+                        //Leitura dos binarios
+                        using (BinaryReader br = new BinaryReader(imagemViewModel.Arquivo.OpenReadStream()))
+                        {
+                            // Converte o arquivo em bytes
+                            imagem.ARQUIVO = br.ReadBytes((int)imagemViewModel.Arquivo.OpenReadStream().Length);
+                        }
                     }
-                }
 
-                _context.Add(imagem);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                    _context.Add(imagem);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Create", "Noticias");
+                }
             }
             return View(imagemViewModel);
         }

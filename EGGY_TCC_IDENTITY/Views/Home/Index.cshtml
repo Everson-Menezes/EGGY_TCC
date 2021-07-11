@@ -5,39 +5,39 @@
 }
 
 <section class="home-destaques">
-    
-    <section id="home-item1">
+
+    <section class="home-item1">
 
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     @if (Model.ElementAtOrDefault(0) != null)
                     {
-                        <img src="@Model.ElementAt(0).Imagem.imagemString" alt="@Model.ElementAt(0).Titulo.ToString()" />
+                        <img class="img-carousel" src="@Model.ElementAt(0).Imagem.imagemString" alt="@Model.ElementAt(0).Titulo.ToString()" />
                     }
                     else
                     {
-                        <img src="~/Imagens/noticia.png" alt="Noticia" />
+                        <img class="img-carousel" src="~/Imagens/noticia.png" alt="Noticia" />
                     }
                 </div>
                 <div class="carousel-item">
                     @if (Model.ElementAtOrDefault(1) != null)
                     {
-                        <img src="@Model.ElementAt(1).Imagem.imagemString" alt="@Model.ElementAt(1).Titulo.ToString()" />
+                        <img class="img-carousel" src="@Model.ElementAt(1).Imagem.imagemString" alt="@Model.ElementAt(1).Titulo.ToString()" />
                     }
                     else
                     {
-                        <img src="~/Imagens/noticia.png" alt="Noticia" />
+                        <img class="img-carousel" src="~/Imagens/noticia.png" alt="Noticia" />
                     }
                 </div>
                 <div class="carousel-item">
                     @if (Model.ElementAtOrDefault(2) != null)
                     {
-                        <img src="@Model.ElementAt(2).Imagem.imagemString" alt="@Model.ElementAt(2).Titulo.ToString()" />
+                        <img class="img-carousel" src="@Model.ElementAt(2).Imagem.imagemString" alt="@Model.ElementAt(2).Titulo.ToString()" />
                     }
                     else
                     {
-                        <img src="~/Imagens/noticia.png" alt="Noticia" />
+                        <img class="img-carousel" src="~/Imagens/noticia.png" alt="Noticia" />
                     }
                 </div>
             </div>
@@ -53,46 +53,56 @@
 
     </section>
 
-    <section class="home-item">
-        @if (Model.ElementAtOrDefault(3) != null)
-        {
-            <img src="@Model.ElementAt(3).Imagem.imagemString" alt="@Model.ElementAt(3).Titulo.ToString()" />
-        }
-        else
-        {
-            <img src="~/Imagens/noticia.png" alt="Noticia" />
-        }
-    </section>
-
-    <section class="home-item" id="home-item3">
-        @if (Model.ElementAtOrDefault(4) != null)
-        {
-            <img src="@Model.ElementAt(4).Imagem.imagemString" alt="@Model.ElementAt(4).Titulo.ToString()" />
-        }
-        else
-        {
-            <img src="~/Imagens/noticia.png" alt="Noticia" />
-        }
-    </section>
-     
-        <section class="home-item" id="home-item4">
-         @if (Model.ElementAtOrDefault(5) != null)
-         {
-             <img src="@Model.ElementAt(5).Imagem.imagemString" alt="@Model.ElementAt(5).Titulo.ToString()" />
-         }
-         else 
-            { 
-             <img src="~/Imagens/noticia.png" alt="Noticia" />
+    <section class="home-item2">
+        <div>
+            @if (Model.ElementAtOrDefault(3) != null)
+            {
+                <img class="img-destaques" src="@Model.ElementAt(3).Imagem.imagemString" alt="@Model.ElementAt(3).Titulo.ToString()" />
             }
-        </section>
+            else
+            {
+                <img class="img-destaques" src="~/Imagens/noticia.png" alt="Noticia" />
+            }
+        </div>
+        <div>
+            @if (Model.ElementAtOrDefault(4) != null)
+            {
+                <img class="img-destaques" src="@Model.ElementAt(4).Imagem.imagemString" alt="@Model.ElementAt(4).Titulo.ToString()" />
+            }
+            else
+            {
+                <img class="img-destaques" src="~/Imagens/noticia.png" alt="Noticia" />
+            }
+        </div>
+        <div>
+            @if (Model.ElementAtOrDefault(5) != null)
+            {
+                <img class="img-destaques" src="@Model.ElementAt(5).Imagem.imagemString" alt="@Model.ElementAt(5).Titulo.ToString()" />
+            }
+            else
+            {
+                <img class="img-destaques" src="~/Imagens/noticia.png" alt="Noticia" />
+            }
+        </div>
 
-        <section id="home-item5">
-            
-                @foreach (var item in Model.OrderBy(x => x.Ong.NomeFantasia))
-                {                    
-                        <div class="grid-ong-noticia">
-                            @Html.DisplayFor(modelItem => item.Ong.NomeFantasia)
-                        </div>
-                }
-        </section>
     </section>
+
+    <section class="home-item3">
+
+        @if (Model.Count() > 0)
+        {
+            foreach (var item in Model.OrderBy(x => x.Ong.NomeFantasia))
+            {
+                <div class="grid-ong-noticia">
+                    @Html.DisplayFor(modelItem => item.Ong.NomeFantasia)
+                </div>
+            }
+        }
+        else
+        {
+            <div class="grid-ong-noticia">
+                Estamos aguardando o retorno dos eventos para podermos listar o nome das ONG's aqui.
+            </div>
+        }
+    </section>
+</section>

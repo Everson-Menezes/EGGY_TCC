@@ -36,22 +36,135 @@ html {
 }
 /*Small devices (landscape phones, 576px and up)*/ 
 @media (min-width: 576px) {
-    ...
+    /*Home*/
+    .home-item1 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .img-carousel {
+        max-height: 400px;
+        max-width: 800px;
+        width: 99%;
+        height: 99%;
+    }
+
+    .home-item2 {
+        display: grid;
+        grid-row-gap: 50px;
+        grid-template-columns: auto auto auto;
+        padding: 10px;
+    }
+
+    .img-destaques {
+        max-height: 200px;
+        max-width: 400px;
+        width: 99%;
+        height: 99%;
+    }
+    /*Home*/
 }
 
 /*Medium devices (tablets, 768px and up)*/
 @media (min-width: 768px) {
-    ...
+    /*Home*/
+    .home-item1 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .img-carousel {
+        max-height: 400px;
+        max-width: 800px;
+        width: 99%;
+        height: 99%;
+    }
+
+    .home-item2 {
+        display: grid;
+        grid-row-gap: 50px;
+        grid-template-columns: auto auto auto;
+        padding: 10px;
+    }
+
+    .img-destaques {
+        max-height: 200px;
+        max-width: 400px;
+        width: 99%;
+        height: 99%;
+    }
+    /*Home*/
 }
 
 /*Large devices (desktops, 992px and up)*/ 
 @media (min-width: 992px) {
-    ...
+    /*Home*/
+    .home-item1 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .img-carousel {
+        max-height: 400px;
+        max-width: 800px;
+        width: 99%;
+        height: 99%;
+    }
+
+    .home-item2 {
+        display: grid;
+        grid-row-gap: 50px;
+        grid-template-columns: auto auto auto;
+        padding: 10px;
+    }
+
+    .img-destaques {
+        max-height: 200px;
+        max-width: 400px;
+        width: 99%;
+        height: 99%;
+    }
+    /*Home*/
 }
 
 /*Extra large devices (large desktops, 1200px and up)*/ 
 @media (min-width: 1200px) {
-    ...
+    /*Home*/
+    .home-item1 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .img-carousel {
+        max-height: 400px;
+        max-width: 800px;
+        width: 800px;
+        height: 400px;
+    }
+    .home-item2 {
+        display: grid;
+        grid-row-gap: 50px;
+        grid-template-columns: auto auto auto;
+        padding: 10px;
+    }
+    .img-destaques {
+        max-height: 200px;
+        max-width: 400px;
+        width: 99%;
+        height: 99%;
+    }
+    .home-item3 {
+        display: grid;
+        grid-column-gap: 50px;
+        grid-template-columns: auto auto auto;
+        padding: 10px;
+        font-size: 15px;
+        text-align: center;
+    }
+    /*Home*/
 }
 
 .border-top {
