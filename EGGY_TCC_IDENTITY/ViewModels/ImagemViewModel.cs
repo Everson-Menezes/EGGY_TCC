@@ -11,6 +11,7 @@ namespace EGGY_TCC_IDENTITY.ViewModels
         public IFormFile Arquivo { get; set; }
         public string? TipoArquivo { get; set; }
         public string? CaminhoArquivo { get; set; }
+        [DisplayName("Imagem")]
         public string imagemString { get; set; }
     }
 }

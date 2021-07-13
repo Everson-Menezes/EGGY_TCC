@@ -15,10 +15,12 @@ namespace EGGY_TCC_IDENTITY.ViewModels
         [DisplayName("Data da Postagem")]
         public DateTime DataPostagem { get; set; }
         public int ID_Ong { get; set; }
-        public OngViewModel Ong { get; set; }
+        public OngViewModel OngNoticia { get; set; }
         [DisplayName("Número de Curtidas")]
         public int Num_Curtidas { get; set; }
         public int ID_Imagem { get; set; }
-        public ImagemViewModel Imagem { get; set; }
+        public ImagemViewModel ImagemNoticia { get; set; }
+        public string Mensagem { get; set; }
+
     }
 }

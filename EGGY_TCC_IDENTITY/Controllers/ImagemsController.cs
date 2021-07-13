@@ -61,14 +61,17 @@ namespace EGGY_TCC_IDENTITY.Controllers
                 return NotFound();
             }
 
-            var imagem = await _context.TB_IMAGEM
-                .FirstOrDefaultAsync(m => m.ID_IMAGEM == id);
+            var imagem = await _context.TB_IMAGEM.FirstOrDefaultAsync(m => m.ID_IMAGEM == id);
             if (imagem == null)
             {
                 return NotFound();
             }
+            ImagemViewModel imagemViewModel = new ImagemViewModel();
+            imagemViewModel.ID_Imagem = imagem.ID_IMAGEM;
+            imagemViewModel.Titulo = imagem.DE_TITULO;
+            imagemViewModel.imagemString = ConverterArquivoByteArrayEmBase64(imagem.ARQUIVO);
 
-            return View(imagem);
+            return View(imagemViewModel);
         }
 
         // GET: Imagems/Create
@@ -117,73 +120,73 @@ namespace EGGY_TCC_IDENTITY.Controllers
         }
 
         // GET: Imagems/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        /* public async Task<IActionResult> Edit(int? id)
+         {
+             if (id == null)
+             {
+                 return NotFound();
+             }
 
-            var imagem = await _context.TB_IMAGEM.FindAsync(id);
+             var imagem = await _context.TB_IMAGEM.FindAsync(id);
 
-            if (imagem == null)
-            {
-                return NotFound();
-            }
-            ImagemViewModel imagemViewModel = new ImagemViewModel();
-            imagemViewModel.ID_Imagem = imagem.ID_IMAGEM;
-            imagemViewModel.Titulo = imagem.DE_TITULO;
-            return View(imagemViewModel);
-        }
+             if (imagem == null)
+             {
+                 return NotFound();
+             }
+             ImagemViewModel imagemViewModel = new ImagemViewModel();
+             imagemViewModel.ID_Imagem = imagem.ID_IMAGEM;
+             imagemViewModel.Titulo = imagem.DE_TITULO;
+             imagemViewModel.Arquivo = imagem.ARQUIVO;
+             return View(imagemViewModel);
+         }
 
-        // POST: Imagems/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, ImagemViewModel imagemViewModel)
-        {
-            if (id != imagemViewModel.ID_Imagem)
-            {
-                return NotFound();
-            }
+         // POST: Imagems/Edit/5
+         // To protect from overposting attacks, enable the specific properties you want to bind to.
+         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+         [HttpPost]
+         [ValidateAntiForgeryToken]
+         public async Task<IActionResult> Edit(int id, ImagemViewModel imagemViewModel)
+         {
+             if (id != imagemViewModel.ID_Imagem)
+             {
+                 return NotFound();
+             }
 
-            if (ModelState.IsValid)
-            {
-                TB_IMAGEM imagem = new TB_IMAGEM();
-                imagem.DE_TITULO = imagemViewModel.Titulo;
+             if (ModelState.IsValid)
+             {
+                 TB_IMAGEM imagem = new TB_IMAGEM();
+                 imagem.DE_TITULO = imagemViewModel.Titulo;
 
-                if (imagemViewModel.Arquivo.Length > 0)
-                {
-                    using (var ms = new MemoryStream())
-                    {
-                        imagemViewModel.Arquivo.CopyTo(ms);
-                        var arquivoBytes = ms.ToArray();
-                        string s = Convert.ToBase64String(arquivoBytes);
-                        imagem.ARQUIVO = arquivoBytes;
-                    }
-                }
-                try
-                {
-                    _context.Update(imagem);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ImagemExists(imagem.ID_IMAGEM))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(imagemViewModel);
-        }
-
+                 if (imagemViewModel.Arquivo.Length > 0)
+                 {
+                     //Leitura dos binarios
+                     using (BinaryReader br = new BinaryReader(imagemViewModel.Arquivo.OpenReadStream()))
+                     {
+                         // Converte o arquivo em bytes
+                         imagem.ARQUIVO = br.ReadBytes((int)imagemViewModel.Arquivo.OpenReadStream().Length);
+                     }
+                 }
+                 try
+                 {
+                     _context.Update(imagem);
+                     await _context.SaveChangesAsync();
+                 }
+                 catch (DbUpdateConcurrencyException)
+                 {
+                     if (!ImagemExists(imagem.ID_IMAGEM))
+                     {
+                         return NotFound();
+                     }
+                     else
+                     {
+                         throw;
+                     }
+                 }
+                 return RedirectToAction(nameof(Index));
+             }
+             return View(imagemViewModel);
+         }
+        */
         // GET: Imagems/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

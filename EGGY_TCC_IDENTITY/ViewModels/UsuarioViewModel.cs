@@ -25,9 +25,9 @@ namespace EGGY_TCC_IDENTITY.ViewModels
         public string DE_NOME { get; set; }
         [DisplayName("E-Mail")]
         public string DE_EMAIL { get; set; }
-        [DisplayName("Data de Cadastro")]
+        [DisplayName("Cadastrado em")]
         public DateTime DT_CADASTRO { get; set; }
-        [DisplayName("Data de Alteração")]
+        [DisplayName("Alterado em")]
         public DateTime DT_ALTERACAO { get; set; }
         [DisplayName("Data de Inativação")]
         public DateTime? DT_INATIVACAO { get; set; }

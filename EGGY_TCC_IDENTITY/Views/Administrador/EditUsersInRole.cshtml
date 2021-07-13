@@ -3,11 +3,11 @@
     var roleId = ViewBag.roleId;
 }
 <form method="post">
-    <div class="card">
+    <div class="card col-sm-6">
         <div class="card-header">
-            <h2>Incluir ou remover usuários desta role</h2>
+            <h2>Incluir ou remover usuários</h2>
         </div>
-        <div class="card-body">
+        <div class="card-body col-sm-6">
             @for (int i = 0; i < Model.Count; i++)
             {
                 Model[i].roleId = roleId;
@@ -24,17 +24,8 @@
         </div>
         <div class="card-footer">
             <input type="submit" value="Atualizar" class="btn btn-primary" style="width:auto" />
-            <a asp-action="Edit" asp-controller="Administrador" asp-route-roleId="@roleId"
-               class="btn btn-primary" style="width:auto">Cancelar</a>
+            <a asp-action="Index" asp-controller="Administrador" asp-route-roleId="@roleId"
+               class="btn btn-info" style="width:auto">Voltar</a>
         </div>
     </div>
 </form>
-Agora precisamos ajustar o código da view EditRole e definir no botão Incluir/Remover Usuário a chamada ao método Action EditUsersInRole no controlador Administration passando o ID da role :
-
-...
-<div class="card-footer">
-    <a asp-controller="Administration" asp-action="EditUsersInRole"
-       asp-route-roleId="@roleId" class="btn btn-primary">
-        Incluir/Remover Usuário da Role
-    </a>
-</div>

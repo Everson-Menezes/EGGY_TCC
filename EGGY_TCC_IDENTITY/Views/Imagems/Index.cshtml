@@ -6,9 +6,6 @@
 
 <h1>Imagens</h1>
 
-<p>
-    <a asp-action="Create">Cadastrar</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -31,7 +28,11 @@
                 <img style="max-width:100px; max-height:100px;" src="@item.imagemString" alt="@item.Titulo" />
             </td>
             <td>
-                <a asp-action="Delete" asp-route-id="@item.ID_Imagem">Excluir</a>
+                @if (User.IsInRole("Master") || User.IsInRole("Avançado"))
+                {
+                    <a asp-action="Delete" asp-route-id="@item.ID_Imagem" class="btn btn-danger">Excluir</a>
+                }
+                <a asp-action="Details" asp-route-id="@item.ID_Imagem" class="btn btn-info">Visualizar</a>
             </td>
         </tr>
 }

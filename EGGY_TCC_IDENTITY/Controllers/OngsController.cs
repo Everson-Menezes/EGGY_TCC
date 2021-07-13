@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace EGGY_TCC_IDENTITY.Controllers
 {
-    [Authorize(Roles = "Master, Avançado")]
+    [Authorize(Roles = "Master, Avançado, Básico")]
     public class OngsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -30,7 +30,6 @@ namespace EGGY_TCC_IDENTITY.Controllers
         }
 
         // GET: Ongs
-        [Authorize(Roles = "Master")]
         public IActionResult Index()
         {
             var ongs = _context.TB_ONG;
@@ -51,25 +50,16 @@ namespace EGGY_TCC_IDENTITY.Controllers
             }
             return View(ongViewModel);
         }
-
         public IActionResult Details(int? id)
         {
-            int idUsuario = _context.TB_USUARIO.Where(x => x.DE_LOGIN.Equals(User.Identity.Name)).Select(x => x.ID_USUARIO).FirstOrDefault();
-            int? idOng = _context.TB_ONG.Where(x => x.ID_USUARIO_ADM == idUsuario).Select(x => x.ID_ONG).FirstOrDefault();
+
             if (id == null)
             {
                 RedirectToAction("Index", "Home");
             }
-            else
-            {
-                if (idOng == null)
-                {
-                    RedirectToAction("Index", "Home");
-                }
-            }
 
-            var ong = (id != null) ? _context.TB_ONG.FirstOrDefault(m => m.ID_ONG == id) : _context.TB_ONG.FirstOrDefault(m => m.ID_ONG == idOng);
-            ong.DE_LOGIN_USUARIO_ADM = (id != null) ? _context.TB_ONG.Where(x => x.ID_ONG == id).Select(x => x.DE_LOGIN_USUARIO_ADM).FirstOrDefault() : _context.TB_ONG.Where(x => x.ID_ONG == idOng).Select(x => x.DE_LOGIN_USUARIO_ADM).FirstOrDefault();
+            var ong = _context.TB_ONG.FirstOrDefault(m => m.ID_ONG == id);
+
             if (ong == null)
             {
                 return NotFound();
@@ -85,6 +75,8 @@ namespace EGGY_TCC_IDENTITY.Controllers
             ongViewModel.Email = ong.DE_EMAIL;
             ongViewModel.CNPJ = ong.DE_CNPJ;
             ongViewModel.UsuarioAdm.DE_LOGIN = ong.DE_LOGIN_USUARIO_ADM;
+            ongViewModel.DT_CADASTRO = ong.DT_CADASTRO;
+            ongViewModel.DT_ALTERACAO = ong.DT_ALTERACAO;
 
             return View(ongViewModel);
         }
@@ -158,9 +150,12 @@ namespace EGGY_TCC_IDENTITY.Controllers
             }
             return View(ongViewModel);
         }
-
+        [Authorize(Roles = "Master, Avançado")]
         public async Task<IActionResult> Edit(int? id)
         {
+            var usuarioLogado = User.Identity.Name;
+            int idUsuario = _context.TB_USUARIO.Where(x => x.DE_LOGIN.Equals(usuarioLogado)).Select(x => x.ID_USUARIO).FirstOrDefault();
+            List<int> listaOngs = _context.TB_ONG.Where(x => x.ID_USUARIO_ADM == idUsuario).Select(x => x.ID_ONG).Distinct().ToList();
             if (id == null)
             {
                 return NotFound();
@@ -172,31 +167,36 @@ namespace EGGY_TCC_IDENTITY.Controllers
             {
                 return NotFound();
             }
-
             OngViewModel ongViewModel = new OngViewModel();
-            ongViewModel.ID_Ong = ong.ID_ONG;
-            ongViewModel.Representante = ong.DE_REPRESENTANTE;
-            ongViewModel.UsuarioAdm.DE_LOGIN = ong.DE_LOGIN_USUARIO_ADM;
-            ongViewModel.Email = ong.DE_EMAIL;
-            ongViewModel.Telefone = ong.DE_TELEFONE;
-            ongViewModel.CNPJ = ong.DE_CNPJ;
-            ongViewModel.RazaoSocial = ong.DE_RAZAO_SOCIAL;
-            ongViewModel.NomeFantasia = ong.DE_NOME_FANTASIA;
-            ongViewModel.ID_Usuario = ong.ID_USUARIO_ADM;
-            ongViewModel.ID_Status = ong.ID_STATUS;
-            ongViewModel.DT_CADASTRO = ong.DT_CADASTRO;
-            ongViewModel.DT_ALTERACAO = ong.DT_ALTERACAO;
-
-            return View(ongViewModel);
+            if (listaOngs.Contains(ong.ID_ONG) || User.IsInRole("Master"))
+            {
+                ongViewModel.ID_Ong = ong.ID_ONG;
+                ongViewModel.Representante = ong.DE_REPRESENTANTE;
+                ongViewModel.UsuarioAdm.DE_LOGIN = ong.DE_LOGIN_USUARIO_ADM;
+                ongViewModel.Email = ong.DE_EMAIL;
+                ongViewModel.Telefone = ong.DE_TELEFONE;
+                ongViewModel.CNPJ = ong.DE_CNPJ;
+                ongViewModel.RazaoSocial = ong.DE_RAZAO_SOCIAL;
+                ongViewModel.NomeFantasia = ong.DE_NOME_FANTASIA;
+                ongViewModel.ID_Usuario = ong.ID_USUARIO_ADM;
+                ongViewModel.ID_Status = ong.ID_STATUS;
+                ongViewModel.DT_CADASTRO = ong.DT_CADASTRO;
+                ongViewModel.DT_ALTERACAO = ong.DT_ALTERACAO;
+                return View(ongViewModel);
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         // POST: Ongs/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Master, Avançado")]
         public async Task<IActionResult> Edit(int id, OngViewModel ongViewModel)
         {
+            var usuarioLogado = User.Identity.Name;
+            int idUsuario = _context.TB_USUARIO.Where(x => x.DE_LOGIN.Equals(usuarioLogado)).Select(x => x.ID_USUARIO).FirstOrDefault();
+            List<int> listaOngs = _context.TB_ONG.Where(x => x.ID_USUARIO_ADM == idUsuario).Select(x => x.ID_ONG).Distinct().ToList();
             if (id != ongViewModel.ID_Ong)
             {
                 return NotFound();
@@ -204,37 +204,40 @@ namespace EGGY_TCC_IDENTITY.Controllers
 
             if (ModelState.IsValid)
             {
-                TB_ONG ong = new TB_ONG();
-                ong.ID_ONG = ongViewModel.ID_Ong;
-                ong.DE_REPRESENTANTE = ongViewModel.Representante;
-                ong.DE_EMAIL = ongViewModel.Email;
-                ong.DE_TELEFONE = ongViewModel.Telefone;
-                ong.DE_CNPJ = ongViewModel.CNPJ;
-                ong.DE_RAZAO_SOCIAL = ongViewModel.RazaoSocial;
-                ong.DE_NOME_FANTASIA = ongViewModel.NomeFantasia;
-                ong.ID_STATUS = ongViewModel.ID_Status;
-                ong.ID_USUARIO_ADM = ongViewModel.ID_Usuario;
-                ong.DE_LOGIN_USUARIO_ADM = ongViewModel.UsuarioAdm.DE_LOGIN;
-                ong.DT_CADASTRO = ongViewModel.DT_CADASTRO;
-                ong.DT_ALTERACAO = DateTime.Now;
+                if (listaOngs.Contains(id) || User.IsInRole("Master"))
+                {
+                    TB_ONG ong = new TB_ONG();
+                    ong.ID_ONG = ongViewModel.ID_Ong;
+                    ong.DE_REPRESENTANTE = ongViewModel.Representante;
+                    ong.DE_EMAIL = ongViewModel.Email;
+                    ong.DE_TELEFONE = ongViewModel.Telefone;
+                    ong.DE_CNPJ = ongViewModel.CNPJ;
+                    ong.DE_RAZAO_SOCIAL = ongViewModel.RazaoSocial;
+                    ong.DE_NOME_FANTASIA = ongViewModel.NomeFantasia;
+                    ong.ID_STATUS = ongViewModel.ID_Status;
+                    ong.ID_USUARIO_ADM = ongViewModel.ID_Usuario;
+                    ong.DE_LOGIN_USUARIO_ADM = ongViewModel.UsuarioAdm.DE_LOGIN;
+                    ong.DT_CADASTRO = ongViewModel.DT_CADASTRO;
+                    ong.DT_ALTERACAO = DateTime.Now;
 
-                try
-                {
-                    _context.Update(ong);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OngExists(ong.ID_ONG))
+                    try
                     {
-                        return NotFound();
+                        _context.Update(ong);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!OngExists(ong.ID_ONG))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
             }
             return View(ongViewModel);
         }
@@ -262,8 +265,8 @@ namespace EGGY_TCC_IDENTITY.Controllers
             ongViewModel.NomeFantasia = ong.DE_NOME_FANTASIA;
             ongViewModel.ID_Usuario = ong.ID_USUARIO_ADM;
             ongViewModel.ID_Status = ong.ID_STATUS;
-            ong.DT_CADASTRO = ong.DT_CADASTRO;
-            ong.DT_ALTERACAO = ong.DT_ALTERACAO;
+            ongViewModel.DT_CADASTRO = ong.DT_CADASTRO;
+            ongViewModel.DT_ALTERACAO = ong.DT_ALTERACAO;
             return View(ongViewModel);
         }
         [Authorize(Roles = "Master")]

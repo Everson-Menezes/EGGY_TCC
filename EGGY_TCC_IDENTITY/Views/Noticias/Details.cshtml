@@ -10,45 +10,48 @@
     <h4>Noticia</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-3">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.Titulo)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Titulo)
         </dd>
-        <dt class = "col-sm-3">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.Conteudo)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Conteudo)
         </dd>
-        <dt class = "col-sm-3">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.DataPostagem)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DataPostagem)
         </dd>
-        <dt class = "col-sm-3">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.Ong)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Ong.DE_NOME_FANTASIA)
         </dd>
-        <dt class = "col-sm-3">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.Num_Curtidas)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Num_Curtidas)
         </dd>
-        <dt class = "col-sm-3">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.Imagem)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Imagem.DE_TITULO)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Imagem.Titulo)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ID_Noticia">Editar</a> |
-    <a asp-action="Index">Voltar</a>
+    @if (User.IsInRole("Master") || User.IsInRole("Avançado"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.ID_Noticia" class="btn btn-primary">Editar</a>
+    }
+    <a asp-action="Index" class="btn btn-info">Voltar</a>
 </div>

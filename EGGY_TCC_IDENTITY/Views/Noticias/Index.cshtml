@@ -3,57 +3,43 @@
 @{
     ViewData["Title"] = "Noticias";
 }
-
 <h1>Noticias</h1>
 
-<p>
-    <a asp-action="Create">Cadastrar</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Titulo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Conteudo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataPostagem)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ong)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Num_Curtidas)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Titulo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Conteudo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataPostagem)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ong.DE_NOME_FANTASIA)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Num_Curtidas)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID_Noticia">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.ID_Noticia">Visualizar</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID_Noticia">Excluir</a>
-            </td>
-        </tr>
+@if (User.IsInRole("Master") || User.IsInRole("Avançado"))
+{
+    <a asp-action="Create" asp-controller="Noticias" class="btn btn-primary">Cadastrar notícia</a>
 }
-    </tbody>
-</table>
+
+<section class="noticia-item">
+    @foreach (var item in Model)
+    {
+        <div>
+            @if (item != null)
+            {
+                <img class="img-noticia" src="@item.Imagem.imagemString" alt="@item.Titulo.ToString()" />
+                <p class="col-sm-6" style="text-align: justify;">
+                    @if (@item.Conteudo.Length > 250)
+                    {
+                        @item.Conteudo.Substring(0, 250);
+                    }
+                    else
+                    {
+                        @item.Conteudo;
+                    }
+                </p>
+                @if (User.IsInRole("Master") || User.IsInRole("Avançado"))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.ID_Noticia" class="btn btn-primary">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.ID_Noticia" class="btn btn-info">Visualizar</a>
+                    <a asp-action="Delete" asp-route-id="@item.ID_Noticia" class="btn btn-danger">Excluir</a>
+                }
+                else
+                {
+                    <a asp-action="Details" asp-route-id="@item.ID_Noticia" class="btn btn-info">Visualizar</a>
+                }
+            }
+        </div>
+        <div style="width: 1px;">
+        </div>
+    }
+</section>

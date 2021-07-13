@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Home Page";
+    ViewData["Mensagem"] = ViewData["Mensagem"];
 }
 
 <section class="home-destaques">
@@ -13,7 +14,7 @@
                 <div class="carousel-item active">
                     @if (Model.ElementAtOrDefault(0) != null)
                     {
-                        <img class="img-carousel" src="@Model.ElementAt(0).Imagem.imagemString" alt="@Model.ElementAt(0).Titulo.ToString()" />
+                        <img class="img-carousel" src="@Model.ElementAt(0).ImagemNoticia.imagemString" alt="@Model.ElementAt(0).Titulo.ToString()" />
                     }
                     else
                     {
@@ -23,7 +24,7 @@
                 <div class="carousel-item">
                     @if (Model.ElementAtOrDefault(1) != null)
                     {
-                        <img class="img-carousel" src="@Model.ElementAt(1).Imagem.imagemString" alt="@Model.ElementAt(1).Titulo.ToString()" />
+                        <img class="img-carousel" src="@Model.ElementAt(1).ImagemNoticia.imagemString" alt="@Model.ElementAt(1).Titulo.ToString()" />
                     }
                     else
                     {
@@ -33,7 +34,7 @@
                 <div class="carousel-item">
                     @if (Model.ElementAtOrDefault(2) != null)
                     {
-                        <img class="img-carousel" src="@Model.ElementAt(2).Imagem.imagemString" alt="@Model.ElementAt(2).Titulo.ToString()" />
+                        <img class="img-carousel" src="@Model.ElementAt(2).ImagemNoticia.imagemString" alt="@Model.ElementAt(2).Titulo.ToString()" />
                     }
                     else
                     {
@@ -57,7 +58,7 @@
         <div>
             @if (Model.ElementAtOrDefault(3) != null)
             {
-                <img class="img-destaques" src="@Model.ElementAt(3).Imagem.imagemString" alt="@Model.ElementAt(3).Titulo.ToString()" />
+                <img class="img-destaques" src="@Model.ElementAt(3).ImagemNoticia.imagemString" alt="@Model.ElementAt(3).Titulo.ToString()" />
             }
             else
             {
@@ -67,7 +68,7 @@
         <div>
             @if (Model.ElementAtOrDefault(4) != null)
             {
-                <img class="img-destaques" src="@Model.ElementAt(4).Imagem.imagemString" alt="@Model.ElementAt(4).Titulo.ToString()" />
+                <img class="img-destaques" src="@Model.ElementAt(4).ImagemNoticia.imagemString" alt="@Model.ElementAt(4).Titulo.ToString()" />
             }
             else
             {
@@ -77,7 +78,7 @@
         <div>
             @if (Model.ElementAtOrDefault(5) != null)
             {
-                <img class="img-destaques" src="@Model.ElementAt(5).Imagem.imagemString" alt="@Model.ElementAt(5).Titulo.ToString()" />
+                <img class="img-destaques" src="@Model.ElementAt(5).ImagemNoticia.imagemString" alt="@Model.ElementAt(5).Titulo.ToString()" />
             }
             else
             {
@@ -87,22 +88,4 @@
 
     </section>
 
-    <section class="home-item3">
-
-        @if (Model.Count() > 0)
-        {
-            foreach (var item in Model.OrderBy(x => x.Ong.NomeFantasia))
-            {
-                <div class="grid-ong-noticia">
-                    @Html.DisplayFor(modelItem => item.Ong.NomeFantasia)
-                </div>
-            }
-        }
-        else
-        {
-            <div class="grid-ong-noticia">
-                Estamos aguardando o retorno dos eventos para podermos listar o nome das ONG's aqui.
-            </div>
-        }
-    </section>
 </section>

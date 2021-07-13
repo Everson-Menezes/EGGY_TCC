@@ -165,6 +165,49 @@ html {
         text-align: center;
     }
     /*Home*/
+    /*Noticia*/
+    .noticia-item {
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+        padding: 10px;
+        grid-row-gap: 50px;
+    }
+    .img-noticia {
+        max-height: 150px;
+        max-width: 300px;
+        width: 99%;
+        height: 99%;
+    }
+    /*Noticia*/
+    /*Sobre*/
+    .sobre {
+        display: flex;
+        position: relative;
+        flex-direction: row;
+        margin-top: 0;
+        max-height: 99%;
+        max-width: 99%;
+        text-align: justify;
+    }
+    #item-2 {
+        margin-top: 42%;
+        margin-left: -5%;
+    }
+    #item-4 {
+        margin-top: 42%;
+    }
+    
+    .img-about {
+        max-height: 300px;
+        max-width: 600px;
+        width: auto;
+        height: auto;
+        border-radius: 50%;
+        position: relative;
+        justify-items: center;
+        align-content: center;
+    }
+    /*sobre*/
 }
 
 .border-top {

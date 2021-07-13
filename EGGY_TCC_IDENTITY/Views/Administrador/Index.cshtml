@@ -1,28 +1,27 @@
 ﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
 
 @{
-    ViewData["Title"] = "";
+    ViewData["Title"] = "Gerenciamento de Perfil";
 }
 
 <p>
-    <a asp-action="Create">Cadastrar</a>
+    <a class="btn btn-primary mb-3" style="width:auto" asp-action="Create"
+       asp-controller="Administrador">Novo Perfil</a>
 </p>
 @if (Model.Any())
 {
-    <a class="btn btn-primary mb-3" style="width:auto" asp-action="Create"
-       asp-controller="Administrador">Novo Perfil</a>
+
     foreach (var role in Model)
     {
-        <div class="card mb-3">
+        <div class="card col-sm-5">
             <div class="card-header">
                 ID : @role.Id
             </div>
             <div class="card-body">
-                <h5 class="card-title">@role.Name</h5>
-            </div>
-            <div class="card-footer">
-                <a asp-action="Edit" asp-controller="Administrador" asp-route-id="@role.Id" class="btn btn-primary">Editar</a>
-                <a asp-action="Edit" asp-controller="Administrador" asp-route-id="@role.Id" class="btn btn-danger">Deletar</a>
+                <h5 class="card-title">
+                    @role.Name
+                    <a asp-action="Edit" asp-controller="Administrador" asp-route-id="@role.Id" class="btn btn-primary">Editar</a>
+                </h5>
             </div>
         </div>
     }
@@ -35,10 +34,10 @@ else
         </div>
         <div class="card-body">
             <h5 class="card-title">
-                Use o botão abaixo para criar uma role
+                Use o botão abaixo para criar um perfil
             </h5>
             <a class="btn btn-primary" style="width:auto"
-               asp-controller="administration" asp-action="Creat">
+               asp-controller="administration" asp-action="Create">
                 Criar Perfil
             </a>
         </div>

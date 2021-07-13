@@ -24,11 +24,14 @@ namespace EGGY_TCC_IDENTITY.ViewModels
         [DisplayName("Usuário Admin")]
         public int ID_Usuario { get; set; }
         public UsuarioViewModel UsuarioAdm { get; set; }
+        [DisplayName("Cadastrado em")]
         public DateTime DT_CADASTRO { get; set; }
+        [DisplayName("Alterado em")]
         public DateTime DT_ALTERACAO { get; set; }
         [DisplayName("Gostaria de Receber Novidades?")]
         public bool BL_RECEBE_NOVIDADE { get; set; }
         public int ID_Status { get; set; }
+        public string Mensagem { get; set; }
 
         public OngViewModel()
         {

@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace EGGY_TCC_IDENTITY.Controllers
 {
-    [Authorize(Roles = "Master, Avançado")]
+    [Authorize(Roles = "Master,Básico, Avançado")]
     public class NoticiasController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -23,40 +23,41 @@ namespace EGGY_TCC_IDENTITY.Controllers
             _context = context;
         }
 
-        [Authorize(Roles = "Master, Básico, Avançado")]
         public IActionResult Index()
         {
             ICollection<NoticiaViewModel> noticiaViewModels = new List<NoticiaViewModel>();
-            var usuarioLogado = User.Identity.Name;
-            int idUsuario = _context.TB_USUARIO.Where(x => x.DE_LOGIN.Equals(usuarioLogado)).Select(x => x.ID_USUARIO).FirstOrDefault();
-            List<int> listaOngs = _context.TB_ONG.Where(x => x.ID_USUARIO_ADM == idUsuario).Select(x => x.ID_ONG).Distinct().ToList();
-
-            foreach (var ongImagem in listaOngs)
+            
+            var noticias = _context.TB_NOTICIA.ToList();
+            foreach (var registro in noticias)
             {
-                var imagens = _context.TB_IMAGEM.Where(i => i.ID_ONG == ongImagem).Select(i => i.ID_IMAGEM).ToList();
-                foreach (var imagemNoticia in imagens)
-                {
-                    var noticias = _context.TB_NOTICIA.Where(n => n.ID_IMAGEM == imagemNoticia).ToList();
-
-                    foreach (var registro in noticias)
-                    {
-                        NoticiaViewModel obj = new NoticiaViewModel();
-                        obj.ID_Noticia = registro.ID_NOTICIA;
-                        obj.Titulo = registro.DE_TITULO;
-                        obj.Conteudo = registro.DE_CONTEUDO;
-                        obj.DataPostagem = registro.DT_POSTAGEM;
-                        obj.Ong = new TB_ONG();
-                        obj.Ong.DE_NOME_FANTASIA = registro.DE_NOME_FANTASIA;
-                        obj.Num_Curtidas = registro.NU_CURTIDAS;
-                        obj.ID_Imagem = registro.ID_IMAGEM;
-                        noticiaViewModels.Add(obj);
-                    }
-                }
+                NoticiaViewModel obj = new NoticiaViewModel();
+                obj.ID_Noticia = registro.ID_NOTICIA;
+                obj.Titulo = registro.DE_TITULO;
+                obj.Conteudo = registro.DE_CONTEUDO;
+                obj.DataPostagem = registro.DT_POSTAGEM;
+                obj.Ong = new TB_ONG();
+                obj.Ong.DE_NOME_FANTASIA = registro.DE_NOME_FANTASIA;
+                obj.Num_Curtidas = registro.NU_CURTIDAS;
+                obj.Imagem = new ImagemViewModel();
+                obj.ID_Imagem = registro.ID_IMAGEM;
+                byte[] imagem = _context.TB_IMAGEM.Where(x => x.ID_IMAGEM == registro.ID_IMAGEM).Select(x => x.ARQUIVO).FirstOrDefault();
+                obj.Imagem.imagemString = ConverterArquivoByteArrayEmBase64(imagem);
+                noticiaViewModels.Add(obj);
             }
+
             return View(noticiaViewModels);
         }
-
-        [Authorize(Roles = "Master, Básico, Avançado")]
+        protected string ConverterArquivoByteArrayEmBase64(byte[] arq)
+        {
+            try
+            {
+                return "data:application/pdf;base64," + Convert.ToBase64String(arq);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -76,9 +77,9 @@ namespace EGGY_TCC_IDENTITY.Controllers
             noticiaViewModel.DataPostagem = noticia.DT_POSTAGEM;
             noticiaViewModel.Ong = new TB_ONG();
             noticiaViewModel.Ong.DE_NOME_FANTASIA = noticia.DE_NOME_FANTASIA;
-            noticiaViewModel.Imagem = new TB_IMAGEM();
+            noticiaViewModel.Imagem = new ImagemViewModel();
             noticiaViewModel.ID_Imagem = noticia.ID_IMAGEM;
-            noticiaViewModel.Imagem.DE_TITULO = _context.TB_IMAGEM.Where(x => x.ID_IMAGEM == noticia.ID_IMAGEM).Select(x => x.DE_TITULO).FirstOrDefault();
+            noticiaViewModel.Imagem.Titulo = _context.TB_IMAGEM.Where(x => x.ID_IMAGEM == noticia.ID_IMAGEM).Select(x => x.DE_TITULO).FirstOrDefault();
             noticiaViewModel.Num_Curtidas = noticia.NU_CURTIDAS;
 
             return View(noticiaViewModel);
@@ -127,6 +128,8 @@ namespace EGGY_TCC_IDENTITY.Controllers
         }
 
         // GET: Noticias/Edit/5
+
+        [Authorize(Roles = "Master, Avançado")]
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -143,13 +146,28 @@ namespace EGGY_TCC_IDENTITY.Controllers
             int idUsuario = _context.TB_USUARIO.Where(x => x.DE_LOGIN.Equals(usuarioLogado)).Select(x => x.ID_USUARIO).FirstOrDefault();
             List<int> listaOngs = _context.TB_ONG.Where(x => x.ID_USUARIO_ADM == idUsuario).Select(x => x.ID_ONG).Distinct().ToList();
             NoticiaViewModel noticiaViewModel = new NoticiaViewModel();
+            if (User.IsInRole("Master"))
+            {
+                noticiaViewModel.ID_Noticia = noticia.ID_NOTICIA;
+                noticiaViewModel.ID_Imagem = noticia.ID_IMAGEM;
+                noticiaViewModel.Ong = new TB_ONG();
+                noticiaViewModel.Ong.DE_NOME_FANTASIA = noticia.DE_NOME_FANTASIA;
+                noticiaViewModel.Titulo = noticia.DE_TITULO;
+                noticiaViewModel.Conteudo = noticia.DE_CONTEUDO;
+                noticiaViewModel.DataPostagem = noticia.DT_POSTAGEM;
+                noticiaViewModel.Imagem = new ImagemViewModel();
+                noticiaViewModel.Imagem.Titulo = _context.TB_IMAGEM.Where(x => x.ID_IMAGEM == noticia.ID_IMAGEM).Select(x => x.DE_TITULO).FirstOrDefault();
+                noticiaViewModel.Num_Curtidas = noticia.NU_CURTIDAS;
+                return View(noticiaViewModel);
+            }
+
             foreach (var ongImagem in listaOngs)
             {
                 var imagens = _context.TB_IMAGEM.Where(i => i.ID_ONG == ongImagem).Select(i => i.ID_IMAGEM).ToList();
 
                 if (imagens.Contains(noticia.ID_IMAGEM))
                 {
-                    
+
                     noticiaViewModel.ID_Noticia = noticia.ID_NOTICIA;
                     noticiaViewModel.ID_Imagem = noticia.ID_IMAGEM;
                     noticiaViewModel.Ong = new TB_ONG();
@@ -158,90 +176,132 @@ namespace EGGY_TCC_IDENTITY.Controllers
                     noticiaViewModel.Titulo = noticia.DE_TITULO;
                     noticiaViewModel.Conteudo = noticia.DE_CONTEUDO;
                     noticiaViewModel.DataPostagem = noticia.DT_POSTAGEM;
-                    noticiaViewModel.Imagem = new TB_IMAGEM();
-                    noticiaViewModel.Imagem.DE_TITULO = _context.TB_IMAGEM.Where(x => x.ID_IMAGEM == noticia.ID_IMAGEM).Select(x => x.DE_TITULO).FirstOrDefault();
+                    noticiaViewModel.Imagem = new ImagemViewModel();
+                    noticiaViewModel.Imagem.Titulo = _context.TB_IMAGEM.Where(x => x.ID_IMAGEM == noticia.ID_IMAGEM).Select(x => x.DE_TITULO).FirstOrDefault();
                     noticiaViewModel.Num_Curtidas = noticia.NU_CURTIDAS;
                     return View(noticiaViewModel);
-                }                
+                }
             }
             return RedirectToAction(nameof(Index));
         }
 
-                // POST: Noticias/Edit/5
-                // To protect from overposting attacks, enable the specific properties you want to bind to.
-                // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-                [HttpPost]
-                [ValidateAntiForgeryToken]
-                public async Task<IActionResult> Edit(int id, NoticiaViewModel noticiaViewModel)
+        // POST: Noticias/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+
+        [Authorize(Roles = "Master, Avançado")]
+        public async Task<IActionResult> Edit(int id, NoticiaViewModel noticiaViewModel)
+        {
+            if (id != noticiaViewModel.ID_Noticia)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                TB_NOTICIA noticia = new TB_NOTICIA();
+                noticia.ID_NOTICIA = noticiaViewModel.ID_Noticia;
+                noticia.DE_TITULO = noticiaViewModel.Titulo;
+                noticia.DE_CONTEUDO = noticiaViewModel.Conteudo;
+                noticia.DT_POSTAGEM = noticiaViewModel.DataPostagem;
+                noticia.DE_NOME_FANTASIA = _context.TB_ONG.Where(x => x.ID_ONG == noticiaViewModel.ID_Ong).Select(x => x.DE_NOME_FANTASIA).FirstOrDefault();
+                noticia.NU_CURTIDAS = noticiaViewModel.Num_Curtidas;
+                noticia.ID_IMAGEM = noticiaViewModel.ID_Imagem;
+
+                try
                 {
-                    if (id != noticiaViewModel.ID_Noticia)
+                    _context.Update(noticia);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!NoticiaExists(noticia.ID_NOTICIA))
                     {
                         return NotFound();
                     }
-
-                    if (ModelState.IsValid)
+                    else
                     {
-                        TB_NOTICIA noticia = new TB_NOTICIA();
-                        noticia.ID_NOTICIA = noticiaViewModel.ID_Noticia;
-                        noticia.DE_TITULO = noticiaViewModel.Titulo;
-                        noticia.DE_CONTEUDO = noticiaViewModel.Conteudo;
-                        noticia.DT_POSTAGEM = noticiaViewModel.DataPostagem;
-                        noticia.DE_NOME_FANTASIA = _context.TB_ONG.Where(x => x.ID_ONG == noticiaViewModel.ID_Ong).Select(x => x.DE_NOME_FANTASIA).FirstOrDefault();
-                        noticia.NU_CURTIDAS = noticiaViewModel.Num_Curtidas;
-                        noticia.ID_IMAGEM = noticiaViewModel.ID_Imagem;
-
-                        try
-                        {
-                            _context.Update(noticia);
-                            await _context.SaveChangesAsync();
-                        }
-                        catch (DbUpdateConcurrencyException)
-                        {
-                            if (!NoticiaExists(noticia.ID_NOTICIA))
-                            {
-                                return NotFound();
-                            }
-                            else
-                            {
-                                throw;
-                            }
-                        }
-                        return RedirectToAction(nameof(Index));
+                        throw;
                     }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(noticiaViewModel);
+        }
+
+
+        [Authorize(Roles = "Master")]
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var noticia = _context.TB_NOTICIA.Find(id);
+            if (noticia == null)
+            {
+                return NotFound();
+            }
+            var usuarioLogado = User.Identity.Name;
+            int idUsuario = _context.TB_USUARIO.Where(x => x.DE_LOGIN.Equals(usuarioLogado)).Select(x => x.ID_USUARIO).FirstOrDefault();
+            List<int> listaOngs = _context.TB_ONG.Where(x => x.ID_USUARIO_ADM == idUsuario).Select(x => x.ID_ONG).Distinct().ToList();
+            NoticiaViewModel noticiaViewModel = new NoticiaViewModel();
+            if (User.IsInRole("Master"))
+            {
+                noticiaViewModel.ID_Noticia = noticia.ID_NOTICIA;
+                noticiaViewModel.ID_Imagem = noticia.ID_IMAGEM;
+                noticiaViewModel.Ong = new TB_ONG();
+                noticiaViewModel.Ong.DE_NOME_FANTASIA = noticia.DE_NOME_FANTASIA;
+                noticiaViewModel.Titulo = noticia.DE_TITULO;
+                noticiaViewModel.Conteudo = noticia.DE_CONTEUDO;
+                noticiaViewModel.DataPostagem = noticia.DT_POSTAGEM;
+                noticiaViewModel.Imagem = new ImagemViewModel();
+                noticiaViewModel.Imagem.Titulo = _context.TB_IMAGEM.Where(x => x.ID_IMAGEM == noticia.ID_IMAGEM).Select(x => x.DE_TITULO).FirstOrDefault();
+                noticiaViewModel.Num_Curtidas = noticia.NU_CURTIDAS;
+                return View(noticiaViewModel);
+            }
+
+            foreach (var ongImagem in listaOngs)
+            {
+                var imagens = _context.TB_IMAGEM.Where(i => i.ID_ONG == ongImagem).Select(i => i.ID_IMAGEM).ToList();
+
+                if (imagens.Contains(noticia.ID_IMAGEM))
+                {
+
+                    noticiaViewModel.ID_Noticia = noticia.ID_NOTICIA;
+                    noticiaViewModel.ID_Imagem = noticia.ID_IMAGEM;
+                    noticiaViewModel.Ong = new TB_ONG();
+                    noticiaViewModel.Ong.DE_NOME_FANTASIA = noticia.DE_NOME_FANTASIA;
+                    noticiaViewModel.ID_Ong = _context.TB_IMAGEM.Where(x => x.ID_IMAGEM == noticia.ID_IMAGEM).Select(x => x.ID_ONG).FirstOrDefault();
+                    noticiaViewModel.Titulo = noticia.DE_TITULO;
+                    noticiaViewModel.Conteudo = noticia.DE_CONTEUDO;
+                    noticiaViewModel.DataPostagem = noticia.DT_POSTAGEM;
+                    noticiaViewModel.Imagem = new ImagemViewModel();
+                    noticiaViewModel.Imagem.Titulo = _context.TB_IMAGEM.Where(x => x.ID_IMAGEM == noticia.ID_IMAGEM).Select(x => x.DE_TITULO).FirstOrDefault();
+                    noticiaViewModel.Num_Curtidas = noticia.NU_CURTIDAS;
                     return View(noticiaViewModel);
                 }
-
-                // GET: Noticias/Delete/5
-                public async Task<IActionResult> Delete(int? id)
-                {
-                    if (id == null)
-                    {
-                        return NotFound();
-                    }
-
-                    var noticia = await _context.TB_NOTICIA.FirstOrDefaultAsync(m => m.ID_NOTICIA == id);
-                    if (noticia == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return View(noticia);
-                }
-
-                // POST: Noticias/Delete/5
-                [HttpPost, ActionName("Delete")]
-                [ValidateAntiForgeryToken]
-                public async Task<IActionResult> DeleteConfirmed(int id)
-                {
-                    var noticia = await _context.TB_NOTICIA.FindAsync(id);
-                    _context.TB_NOTICIA.Remove(noticia);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-
-                private bool NoticiaExists(int id)
-                {
-                    return _context.TB_NOTICIA.Any(e => e.ID_NOTICIA == id);
-                }
             }
+            return RedirectToAction(nameof(Index));
         }
+
+        // POST: Noticias/Delete/5
+        [HttpPost, ActionName("Delete")]
+
+        [Authorize(Roles = "Master")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var noticia = await _context.TB_NOTICIA.FindAsync(id);
+            _context.TB_NOTICIA.Remove(noticia);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool NoticiaExists(int id)
+        {
+            return _context.TB_NOTICIA.Any(e => e.ID_NOTICIA == id);
+        }
+    }
+}

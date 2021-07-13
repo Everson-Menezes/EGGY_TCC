@@ -81,6 +81,10 @@
 </div>
 
 <div>
-    <a asp-action="Index">Voltar</a>
+    @if (User.IsInRole("Master"))
+    {
+        <a asp-action="Index" class="btn btn-info">Voltar</a>
+    }
+    <a asp-action="Index" asp-controller="Home" class="btn btn-info">Voltar</a>
 </div>
 

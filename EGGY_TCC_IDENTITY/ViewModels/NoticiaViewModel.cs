@@ -20,7 +20,7 @@ namespace EGGY_TCC_IDENTITY.ViewModels
         public int Num_Curtidas { get; set; }
         [DisplayName("Imagem")]
         public int ID_Imagem { get; set; }
-        public TB_IMAGEM Imagem { get; set; }
+        public ImagemViewModel Imagem { get; set; }
         public List<OngViewModel> ongViewModels { get; set; }
 
     }
