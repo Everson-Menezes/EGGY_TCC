@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace EGGY_TCC_IDENTITY.ViewModels
 {
-    public class OngApoidorViewModel 
+    public class OngApoiadorViewModel 
     {
         public int ID_ONG_APOIADOR { get; set; }
         public int ID_APOIADOR { get; set; }        

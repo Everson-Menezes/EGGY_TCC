@@ -9,6 +9,7 @@
 <div>
     <h4>Ong</h4>
     <hr />
+    <input type="hidden" asp-for="@Model.ID_Ong" />
     <dl class="row">
         <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.Representante)
@@ -72,5 +73,5 @@
         <a asp-action="Edit" asp-route-id="@Model.ID_Ong" class="btn btn-primary">Editar</a>
     }
     <a asp-action="Index" asp-route-id="@Model.ID_Ong" class="btn btn-info">Voltar</a>
-    <a asp-action="Index" asp-controller="OngApoiador" asp-route-id="@Model.ID_Ong" class="btn btn-info">Apoiar</a>
+    <a asp-action="Apoiar" asp-controller="OngApoiador" asp-route-idOng="@Model.ID_Ong" class="btn btn-success">Apoiar</a>
 </div>

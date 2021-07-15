@@ -114,6 +114,7 @@ namespace EGGY_TCC_IDENTITY.Controllers
                     TB_ONG ong = new TB_ONG();
                     TB_USUARIO usuario = new TB_USUARIO();
                     TB_APOIADOR apoiador = new TB_APOIADOR();
+                    TB_ONG_APOIADOR ongApoiador = new TB_ONG_APOIADOR();
 
                     ong.DE_REPRESENTANTE = ongViewModel.Representante;
                     ong.DE_EMAIL = ongViewModel.Email;
@@ -142,6 +143,10 @@ namespace EGGY_TCC_IDENTITY.Controllers
                     _context.Add(ong);
                     _context.Update(usuario);
                     _context.Update(apoiador);
+                    await _context.SaveChangesAsync();
+                    ongApoiador.ID_ONG = ong.ID_ONG;
+                    ongApoiador.ID_APOIADOR = apoiador.ID_APOIADOR;
+                    _context.Add(ongApoiador);
                     await _context.SaveChangesAsync();
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
