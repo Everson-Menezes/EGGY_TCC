@@ -10,36 +10,52 @@
     <a asp-action="Create" asp-controller="Noticias" class="btn btn-primary">Cadastrar notícia</a>
 }
 
-<section class="noticia-item">
-    @foreach (var item in Model)
-    {
-        <div>
-            @if (item != null)
+
+
+
+<section class="py-5 noticia-item">
+    <div class="container">
+        <div class="row m-lg-3">
+            @foreach (var item in Model)
             {
-                <img class="img-noticia" src="@item.Imagem.imagemString" alt="@item.Titulo.ToString()" />
-                <p class="col-sm-6" style="text-align: justify;">
-                    @if (@item.Conteudo.Length > 250)
-                    {
-                        @item.Conteudo.Substring(0, 250);
-                    }
-                    else
-                    {
-                        @item.Conteudo;
-                    }
-                </p>
-                @if (User.IsInRole("Master") || User.IsInRole("Avançado"))
-                {
-                    <a asp-action="Edit" asp-route-id="@item.ID_Noticia" class="btn btn-primary">Editar</a>
-                    <a asp-action="Details" asp-route-id="@item.ID_Noticia" class="btn btn-info">Visualizar</a>
-                    <a asp-action="Delete" asp-route-id="@item.ID_Noticia" class="btn btn-danger">Excluir</a>
-                }
-                else
-                {
-                    <a asp-action="Details" asp-route-id="@item.ID_Noticia" class="btn btn-info">Visualizar</a>
-                }
+                <div class="col-md-6 py-3">
+                    <div class="card mb-6 shadow-sm">
+                        @if (item != null)
+                        {
+                            <img class="card-img-top" src="@item.Imagem.imagemString" alt="@item.Titulo.ToString()" />
+
+                            <div class="card-body">
+                                <p class="card-text" style="text-align: justify;">
+                                    @if (@item.Conteudo.Length > 250)
+                                    {
+                                        @item.Conteudo.Substring(0, 250);
+                                    }
+                                    else
+                                    {
+                                        @item.Conteudo;
+                                    }
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        @if (User.IsInRole("Master") || User.IsInRole("Avançado"))
+                                        {
+                                            <a asp-action="Edit" asp-route-id="@item.ID_Noticia" class="btn btn-primary">Editar</a>
+                                            <a asp-action="Details" asp-route-id="@item.ID_Noticia" class="btn btn-info">Visualizar</a>
+                                            <a asp-action="Delete" asp-route-id="@item.ID_Noticia" class="btn btn-danger">Excluir</a>
+                                        }
+                                        else
+                                        {
+                                            <a asp-action="Details" asp-route-id="@item.ID_Noticia" class="btn btn-info">Visualizar</a>
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
             }
         </div>
-        <div style="width: 1px;">
-        </div>
-    }
+    </div>
 </section>

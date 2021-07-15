@@ -7,83 +7,125 @@
 
 <section class="home-destaques">
 
-    <section class="home-item1">
 
-        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    @if (Model.ElementAtOrDefault(0) != null)
-                    {
-                        <img class="img-carousel" src="@Model.ElementAt(0).ImagemNoticia.imagemString" alt="@Model.ElementAt(0).Titulo.ToString()" />
-                    }
-                    else
-                    {
-                        <img class="img-carousel" src="~/Imagens/noticia.png" alt="Noticia" />
-                    }
-                </div>
-                <div class="carousel-item">
-                    @if (Model.ElementAtOrDefault(1) != null)
-                    {
-                        <img class="img-carousel" src="@Model.ElementAt(1).ImagemNoticia.imagemString" alt="@Model.ElementAt(1).Titulo.ToString()" />
-                    }
-                    else
-                    {
-                        <img class="img-carousel" src="~/Imagens/noticia.png" alt="Noticia" />
-                    }
-                </div>
-                <div class="carousel-item">
-                    @if (Model.ElementAtOrDefault(2) != null)
-                    {
-                        <img class="img-carousel" src="@Model.ElementAt(2).ImagemNoticia.imagemString" alt="@Model.ElementAt(2).Titulo.ToString()" />
-                    }
-                    else
-                    {
-                        <img class="img-carousel" src="~/Imagens/noticia.png" alt="Noticia" />
-                    }
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active" style="max-height: 400px; min-height: 250px;">
+                @if (Model.ElementAtOrDefault(0) != null)
+                {
+                    <img class="d-block w-100" src="@Model.ElementAt(0).ImagemNoticia.imagemString" alt="@Model.ElementAt(0).Titulo.ToString()" />
+                }
+                else
+                {
+                    <img class="d-block w-100" style="max-height: 400px; min-height: 250px;" src="~/Imagens/noticia.png" alt="Noticia" />
+                }
+            </div>
+            <div class="carousel-item">
+                @if (Model.ElementAtOrDefault(1) != null)
+                {
+                    <img class="d-block w-100" style="max-height: 400px; min-height: 250px;"  src="@Model.ElementAt(1).ImagemNoticia.imagemString" alt="@Model.ElementAt(1).Titulo.ToString()" />
+                }
+                else
+                {
+                    <img class="d-block w-100" style="max-height: 400px; min-height: 250px;" src="~/Imagens/noticia.png" alt="Noticia" />
+                }
+            </div>
+            <div class="carousel-item">
+                @if (Model.ElementAtOrDefault(2) != null)
+                {
+                    <img class="d-block w-100" style="max-height: 400px; min-height: 250px;" src="@Model.ElementAt(2).ImagemNoticia.imagemString" alt="@Model.ElementAt(2).Titulo.ToString()" />
+                }
+                else
+                {
+                    <img class="d-block w-100" style="max-height: 400px; min-height: 250px;" src="~/Imagens/noticia.png" alt="Noticia" />
+                }
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only-focusable" style="font: bold 20px arial; color: black;">Anterior</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="sr-only-focusable" style="font: bold 20px arial; color: black;">Próximo</span>
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </a>
+    </div>
+
+
+
+    <section class="py-5 home-item">
+        <div class="container">
+            <div class="row">
+                <div class="py-3">
+                    <div class="mb-6">
+                        <div class="card-body">
+                            @if (Model.ElementAtOrDefault(3) != null)
+                            {
+                                <img class="card-img-top" style="max-height:213px; min-width:321px;" src="@Model.ElementAt(3).ImagemNoticia.imagemString" alt="@Model.ElementAt(3).Titulo.ToString()" />
+                            }
+                            else
+                            {
+                                <img class="card-img-top"  style="max-height:213px; min-width:321px;" src="~/Imagens/noticia.png" alt="Noticia" />
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
-            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Anterior</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Próximo</span>
-            </a>
         </div>
 
+        <div class="container">
+            <div class="row">
+                <div class="py-3">
+                    <div class="mb-6">
+                        <div class="card-body">
+                            @if (Model.ElementAtOrDefault(4) != null)
+                            {
+                                <img class="card-img-top"  style="max-height:213px; min-width:321px;" src="@Model.ElementAt(4).ImagemNoticia.imagemString" alt="@Model.ElementAt(4).Titulo.ToString()" />
+                            }
+                            else
+                            {
+                                <img class="card-img-top"  style="max-height:213px; min-width:321px;" src="~/Imagens/noticia.png" alt="Noticia" />
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="py-3">
+                    <div class="mb-6">
+                        <div class="card-body">
+                            @if (Model.ElementAtOrDefault(5) != null)
+                            {
+                                <img class="card-img-top"  style="min-height:213px; min-width:321px;" src="@Model.ElementAt(5).ImagemNoticia.imagemString" alt="@Model.ElementAt(5).Titulo.ToString()" />
+                            }
+                            else
+                            {
+                                <img class="card-img-top"  style="min-height:213px; min-width:321px;" src="~/Imagens/noticia.png" alt="Noticia" />
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <section class="home-item2">
+
+
+
+
+
+
+    <section class="py-5 home-item2">
         <div>
-            @if (Model.ElementAtOrDefault(3) != null)
-            {
-                <img class="img-destaques" src="@Model.ElementAt(3).ImagemNoticia.imagemString" alt="@Model.ElementAt(3).Titulo.ToString()" />
-            }
-            else
-            {
-                <img class="img-destaques" src="~/Imagens/noticia.png" alt="Noticia" />
-            }
+           
         </div>
         <div>
-            @if (Model.ElementAtOrDefault(4) != null)
-            {
-                <img class="img-destaques" src="@Model.ElementAt(4).ImagemNoticia.imagemString" alt="@Model.ElementAt(4).Titulo.ToString()" />
-            }
-            else
-            {
-                <img class="img-destaques" src="~/Imagens/noticia.png" alt="Noticia" />
-            }
+           
         </div>
         <div>
-            @if (Model.ElementAtOrDefault(5) != null)
-            {
-                <img class="img-destaques" src="@Model.ElementAt(5).ImagemNoticia.imagemString" alt="@Model.ElementAt(5).Titulo.ToString()" />
-            }
-            else
-            {
-                <img class="img-destaques" src="~/Imagens/noticia.png" alt="Noticia" />
-            }
         </div>
 
     </section>
