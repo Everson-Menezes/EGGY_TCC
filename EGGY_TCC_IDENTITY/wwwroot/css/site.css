@@ -50,7 +50,6 @@ html {
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        background-color: aquamarine;
     }
 
     .home-item2 {
@@ -60,7 +59,6 @@ html {
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        background-color: gray;
     }
 
     .home-item3 {
@@ -71,13 +69,13 @@ html {
         justify-content: center;
         align-items: center;
         grid-template-columns: auto auto;
-        background-color: burlywood;
         max-width: 300px;
     }
 
     .img-destaques {
         width: 250px;
         height: 125px;
+        border: 1px solid;
     }
 
     /*Home*/
@@ -144,7 +142,6 @@ html {
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        background-color: aquamarine;
     }
 
     .home-item2 {
@@ -154,7 +151,6 @@ html {
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        background-color: yellow;
     }
 
     .home-item3 {
@@ -165,12 +161,12 @@ html {
         justify-content: center;
         align-items: center;
         grid-template-columns: auto auto;
-        background-color: burlywood;
     }
 
     .img-destaques {
         width: 300px;
         height: 150px;
+        border: 1px solid;
     }
 
     /*Home*/
@@ -238,7 +234,6 @@ html {
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        background-color: aquamarine;
     }
 
     .home-item2 {
@@ -248,7 +243,6 @@ html {
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        background-color: gray;
     }
 
     .home-item3 {
@@ -259,12 +253,12 @@ html {
         justify-content: center;
         align-items: center;
         grid-template-columns: auto auto;
-        background-color: burlywood;
     }
 
     .img-destaques {
         width: 300px;
         height: 150px;
+        border: 1px solid;
     }
 
     /*Home*/
@@ -333,7 +327,6 @@ html {
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        background-color: aquamarine;
     }
 
     .home-item2 {
@@ -343,7 +336,6 @@ html {
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        background-color: gray;
     }
 
     .home-item3 {
@@ -354,12 +346,12 @@ html {
         justify-content: center;
         align-items: center;
         grid-template-columns: auto auto;
-        background-color: burlywood;
     }
 
     .img-destaques {
         width: 400px;
         height: 200px;
+        border: 1px solid;
     }
 
     /*Home*/
@@ -428,7 +420,6 @@ html {
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        background-color: aquamarine;
     }
 
     .home-item2 {
@@ -438,7 +429,6 @@ html {
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        background-color: gray;
     }
 
     .home-item3 {
@@ -449,7 +439,6 @@ html {
         justify-content: center;
         align-items: center;
         grid-template-columns: auto auto;
-        background-color: burlywood;
     }
 
     .img-destaques {
