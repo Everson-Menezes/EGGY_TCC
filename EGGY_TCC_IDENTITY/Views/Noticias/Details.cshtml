@@ -53,5 +53,9 @@
     {
         <a asp-action="Edit" asp-route-id="@Model.ID_Noticia" class="btn btn-primary">Editar</a>
     }
+    @if (!Model.UsuarioJaCurtiu)
+    {
+        <a asp-action="Curtir" asp-route-id="@Model.ID_Noticia" class="btn btn-outline-secondary">Curtir</a>
+    }
     <a asp-action="Index" class="btn btn-info">Voltar</a>
 </div>

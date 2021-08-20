@@ -94,7 +94,7 @@ namespace EGGY_TCC_IDENTITY.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View("Erro", "Home");
+            return View("Erro");
         }
     }
 }

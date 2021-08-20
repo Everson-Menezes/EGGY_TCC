@@ -26,7 +26,7 @@ namespace EGGY_TCC_IDENTITY.Controllers
         public IActionResult Index()
         {
             ICollection<NoticiaViewModel> noticiaViewModels = new List<NoticiaViewModel>();
-            
+
             var noticias = _context.TB_NOTICIA.ToList();
             foreach (var registro in noticias)
             {
@@ -58,6 +58,29 @@ namespace EGGY_TCC_IDENTITY.Controllers
                 throw ex;
             }
         }
+        public async Task<IActionResult> Curtir(int id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+            var noticia = await _context.TB_NOTICIA.FirstOrDefaultAsync(m => m.ID_NOTICIA == id);
+            if (noticia == null)
+            {
+                return NotFound();
+            }
+            var idApoiador = _context.TB_USUARIO.Where(x => x.DE_LOGIN.Equals(User.Identity.Name)).Select(x => x.ID_APOIADOR).FirstOrDefault();
+            _context.Update(noticia);
+            noticia.NU_CURTIDAS++;
+            TB_NOTICIA_CURTIDA TB_NOTICIA_CURTIDA = new TB_NOTICIA_CURTIDA
+            {
+                ID_APOIADOR = idApoiador,
+                ID_NOTICIA = noticia.ID_NOTICIA
+            };
+            _context.Add(TB_NOTICIA_CURTIDA);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -66,10 +89,12 @@ namespace EGGY_TCC_IDENTITY.Controllers
             }
 
             var noticia = await _context.TB_NOTICIA.FirstOrDefaultAsync(m => m.ID_NOTICIA == id);
+            var noticiarCurtida = _context.TB_NOTICIA_CURTIDA.FirstOrDefault(c => c.ID_NOTICIA == noticia.ID_NOTICIA);
             if (noticia == null)
             {
                 return NotFound();
             }
+
             NoticiaViewModel noticiaViewModel = new NoticiaViewModel();
             noticiaViewModel.ID_Noticia = noticia.ID_NOTICIA;
             noticiaViewModel.Titulo = noticia.DE_TITULO;
@@ -81,6 +106,10 @@ namespace EGGY_TCC_IDENTITY.Controllers
             noticiaViewModel.ID_Imagem = noticia.ID_IMAGEM;
             noticiaViewModel.Imagem.Titulo = _context.TB_IMAGEM.Where(x => x.ID_IMAGEM == noticia.ID_IMAGEM).Select(x => x.DE_TITULO).FirstOrDefault();
             noticiaViewModel.Num_Curtidas = noticia.NU_CURTIDAS;
+            int? idApoiador = _context.TB_USUARIO.Where(x => x.DE_LOGIN.Equals(User.Identity.Name)).Select(x => x.ID_APOIADOR).FirstOrDefault();
+
+            if (noticiarCurtida != null && noticiarCurtida.ID_APOIADOR == idApoiador)
+                noticiaViewModel.UsuarioJaCurtiu = true;
 
             return View(noticiaViewModel);
         }

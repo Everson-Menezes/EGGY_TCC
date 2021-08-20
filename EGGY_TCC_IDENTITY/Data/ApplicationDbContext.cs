@@ -20,6 +20,6 @@ namespace EGGY_TCC_IDENTITY.Data
         public DbSet<TB_NOTICIA> TB_NOTICIA { get; set; }
         public DbSet<TB_APOIADOR> TB_APOIADOR { get; set; }
         public DbSet<TB_ONG_APOIADOR> TB_ONG_APOIADOR { get; set; }
-        public DbSet<TB_NIVEL_ACESSO> TB_NIVEL_ACESSO { get; set; }
+        public DbSet<TB_NOTICIA_CURTIDA> TB_NOTICIA_CURTIDA { get; set; }
     }
 }

@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace EGGY_TCC_IDENTITY.Models
 {
-    public class TB_NIVEL_ACESSO
-    {
+    public class TB_NOTICIA_CURTIDA
+    {       
         [Key]
-        public int ID_NIVEL { get; set; }
-        public string DE_NIVEL { get; set; }
+        public int ID { get; set; }
+        public int ID_NOTICIA { get; set; }
+        public int ID_APOIADOR { get; set; }
     }
 }

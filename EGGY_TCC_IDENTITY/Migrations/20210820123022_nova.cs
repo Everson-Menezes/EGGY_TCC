@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EGGY_TCC_IDENTITY.Migrations
 {
-    public partial class primeira : Migration
+    public partial class nova : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -81,19 +81,6 @@ namespace EGGY_TCC_IDENTITY.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TB_NIVEL_ACESSO",
-                columns: table => new
-                {
-                    ID_NIVEL = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DE_NIVEL = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TB_NIVEL_ACESSO", x => x.ID_NIVEL);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TB_NOTICIA",
                 columns: table => new
                 {
@@ -109,6 +96,20 @@ namespace EGGY_TCC_IDENTITY.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TB_NOTICIA", x => x.ID_NOTICIA);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TB_NOTICIA_CURTIDA",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID_NOTICIA = table.Column<int>(nullable: false),
+                    ID_APOIADOR = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TB_NOTICIA_CURTIDA", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -243,8 +244,8 @@ namespace EGGY_TCC_IDENTITY.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -288,8 +289,8 @@ namespace EGGY_TCC_IDENTITY.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -367,10 +368,10 @@ namespace EGGY_TCC_IDENTITY.Migrations
                 name: "TB_IMAGEM");
 
             migrationBuilder.DropTable(
-                name: "TB_NIVEL_ACESSO");
+                name: "TB_NOTICIA");
 
             migrationBuilder.DropTable(
-                name: "TB_NOTICIA");
+                name: "TB_NOTICIA_CURTIDA");
 
             migrationBuilder.DropTable(
                 name: "TB_ONG");

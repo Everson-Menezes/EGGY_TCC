@@ -38,6 +38,8 @@ namespace EGGY_TCC_IDENTITY.Controllers
                 obj.ID_ONG = registro.ID_ONG;
                 obj.Ong = new OngViewModel();
                 obj.Ong.NomeFantasia = _context.TB_ONG.Where(x => x.ID_ONG == obj.ID_ONG).Select(x => x.DE_NOME_FANTASIA).FirstOrDefault();
+                obj.Apoidor = new ApoidorViewModel();
+                obj.Apoidor.DE_NOME = _context.TB_APOIADOR.Where(x => x.ID_APOIADOR == obj.ID_APOIADOR).Select(x => x.DE_NOME).FirstOrDefault();
                 ongApoiadorViewModels.Add(obj);
             }
             
@@ -61,11 +63,11 @@ namespace EGGY_TCC_IDENTITY.Controllers
                 ongApoiadorViewModel.Ong.CNPJ = registroOng.DE_CNPJ;
 
                 int idUsuario = _context.TB_USUARIO.Where(x => x.DE_LOGIN.Equals(User.Identity.Name)).Select(x => x.ID_USUARIO).FirstOrDefault();
-                var regstroApoiador = _context.TB_APOIADOR.Where(a => a.ID_USUARIO == idUsuario).FirstOrDefault();
+                var registroApoiador = _context.TB_APOIADOR.Where(a => a.ID_USUARIO == idUsuario).FirstOrDefault();
                 ongApoiadorViewModel.Apoidor = new ApoidorViewModel();
-                ongApoiadorViewModel.ID_APOIADOR = regstroApoiador.ID_APOIADOR;
-                ongApoiadorViewModel.Apoidor.DE_NOME = regstroApoiador.DE_NOME;
-                ongApoiadorViewModel.Apoidor.DE_EMAIL = regstroApoiador.DE_EMAIL;
+                ongApoiadorViewModel.ID_APOIADOR = registroApoiador.ID_APOIADOR;
+                ongApoiadorViewModel.Apoidor.DE_NOME = registroApoiador.DE_NOME;
+                ongApoiadorViewModel.Apoidor.DE_EMAIL = registroApoiador.DE_EMAIL;
 
                 var listaOngApoiador = _context.TB_ONG_APOIADOR.ToList();
                 var idsOngApoiador = _context.TB_ONG_APOIADOR.Where(a => a.ID_APOIADOR == ongApoiadorViewModel.ID_APOIADOR).Select(x => x.ID_ONG_APOIADOR).ToList();

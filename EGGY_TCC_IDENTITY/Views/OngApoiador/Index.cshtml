@@ -3,22 +3,21 @@
 }
 <div class="py-5">
 
-    <div class="container">
+    <div class="container home-item3">
         @foreach (var item in Model)
         {
-            <div class="row m-lg-3">
+            <div class="row m-lg-3" style="width: 250px; height: 100px;">
                 <!--foreach recursos-->
                 <div class="card shadow-sm">
                     @item.Ong.NomeFantasia
 
                     <div class="card-body">
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                         @item.Apoidor.DE_NOME
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                <a asp-controller="Ongs" asp-action="Details" asp-route-id="@item.ID_ONG" class="btn btn-info">Visualizar</a>
+                               
                             </div>
-                            <small class="text-muted">9 mins</small>
                         </div>
                     </div>
                 </div>

@@ -22,6 +22,6 @@ namespace EGGY_TCC_IDENTITY.ViewModels
         public int ID_Imagem { get; set; }
         public ImagemViewModel Imagem { get; set; }
         public List<OngViewModel> ongViewModels { get; set; }
-
+        public bool UsuarioJaCurtiu { get; set; }
     }
 }

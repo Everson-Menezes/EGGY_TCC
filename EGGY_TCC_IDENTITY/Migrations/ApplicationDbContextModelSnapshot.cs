@@ -73,21 +73,6 @@ namespace EGGY_TCC_IDENTITY.Migrations
                     b.ToTable("TB_IMAGEM");
                 });
 
-            modelBuilder.Entity("EGGY_TCC_IDENTITY.Models.TB_NIVEL_ACESSO", b =>
-                {
-                    b.Property<int>("ID_NIVEL")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("DE_NIVEL")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID_NIVEL");
-
-                    b.ToTable("TB_NIVEL_ACESSO");
-                });
-
             modelBuilder.Entity("EGGY_TCC_IDENTITY.Models.TB_NOTICIA", b =>
                 {
                     b.Property<int>("ID_NOTICIA")
@@ -116,6 +101,24 @@ namespace EGGY_TCC_IDENTITY.Migrations
                     b.HasKey("ID_NOTICIA");
 
                     b.ToTable("TB_NOTICIA");
+                });
+
+            modelBuilder.Entity("EGGY_TCC_IDENTITY.Models.TB_NOTICIA_CURTIDA", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ID_APOIADOR")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ID_NOTICIA")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("TB_NOTICIA_CURTIDA");
                 });
 
             modelBuilder.Entity("EGGY_TCC_IDENTITY.Models.TB_ONG", b =>
@@ -399,12 +402,10 @@ namespace EGGY_TCC_IDENTITY.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -441,12 +442,10 @@ namespace EGGY_TCC_IDENTITY.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
