@@ -2,6 +2,8 @@
 using EGGY_TCC_IDENTITY.Models;
 using EGGY_TCC_IDENTITY.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -94,7 +96,8 @@ namespace EGGY_TCC_IDENTITY.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View("Erro");
+            return View();
         }
+        
     }
 }
