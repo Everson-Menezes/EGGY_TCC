@@ -1,4 +1,4 @@
-﻿@model EGGY_TCC_IDENTITY.Models.TB_IMAGEM
+﻿@model EGGY_TCC_IDENTITY.ViewModels.ImagemViewModel
 
 @{
     ViewData["Title"] = "Excluir";
@@ -6,28 +6,101 @@
 
 <h1>Excluir</h1>
 
-<h3>Tem certeza que deseja excluir esse registro?</h3>
-<div>
-    <h4>Imagem</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DE_TITULO)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DE_TITULO)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ARQUIVO)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DE_TITULO)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="ID_IMAGEM" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index" class="btn btn-info">Voltar</a>
-    </form>
-</div>
+
+@if (Model.Mensagem == null || Model.Mensagem.Equals(""))
+{
+    <h3>Tem certeza que deseja excluir esse registro?</h3>
+    <div>
+        <h4>Imagem</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Titulo)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Titulo)
+            </dd>
+            <dt class="col-sm-2">
+                teste
+            </dt>
+            <dd class="col-sm-10">
+                <img style="max-width:200px; max-height:200px;" src="@Model.imagemString" alt="@Model.Titulo" />
+            </dd>
+        </dl>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="ID_Imagem" />
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            <a asp-action="Index" class="btn btn-info">Voltar</a>
+        </form>
+    </div>
+}
+else
+{
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            /* The Modal (background) */
+            .modal {
+                display: block; /* Hidden by default */
+                position: fixed; /* Stay in place */
+                z-index: 1; /* Sit on top */
+                padding-top: 100px; /* Location of the box */
+                left: 0;
+                top: 0;
+                width: 100%; /* Full width */
+                height: 100%; /* Full height */
+                overflow: auto; /* Enable scroll if needed */
+                background-color: rgb(0,0,0); /* Fallback color */
+                background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            }
+
+            /* Modal Content */
+            .modal-content {
+                background-color: #fefefe;
+                margin: auto;
+                padding: 20px;
+                border: 1px solid #888;
+                width: 80%;
+            }
+
+            /* The Close Button */
+            .close {
+                color: #aaaaaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+                .close:hover,
+                .close:focus {
+                    color: #000;
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+        </style>
+    </head>
+    <body>
+
+
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <a asp-action="Index"> <span class="close">&times;</span></a>
+                <p style="justify-content: center; justify-items: center; justify-self: center;">@Model.Mensagem</p>
+            </div>
+        </div>
+
+
+    </body>
+</html>
+
+}

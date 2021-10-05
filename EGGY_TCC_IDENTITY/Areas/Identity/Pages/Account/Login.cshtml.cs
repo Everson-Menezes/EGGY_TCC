@@ -42,14 +42,13 @@ namespace EGGY_TCC_IDENTITY.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required (ErrorMessage = "Preencha o campo Login")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Preencha o campo Senha")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
-
-            [Display(Name = "Remember me?")]
+            
             public bool RememberMe { get; set; }
         }
 

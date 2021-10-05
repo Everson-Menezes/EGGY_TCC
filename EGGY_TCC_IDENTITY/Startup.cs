@@ -36,6 +36,11 @@ namespace EGGY_TCC_IDENTITY
                 .AddEntityFrameworkStores<ApplicationDbContext>().AddErrorDescriber<CustomIdentityErrorDescriber>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = "/Home/AccessDenied";
+                options.LoginPath = "/Identity/Account/Login";
+            });
             services.AddRazorPages();
         }
 

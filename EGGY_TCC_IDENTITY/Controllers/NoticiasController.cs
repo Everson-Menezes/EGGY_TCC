@@ -70,8 +70,9 @@ namespace EGGY_TCC_IDENTITY.Controllers
                 return NotFound();
             }
             var idApoiador = _context.TB_USUARIO.Where(x => x.DE_LOGIN.Equals(User.Identity.Name)).Select(x => x.ID_APOIADOR).FirstOrDefault();
-            _context.Update(noticia);
             noticia.NU_CURTIDAS++;
+            _context.Update(noticia);
+            _context.SaveChanges();
             TB_NOTICIA_CURTIDA TB_NOTICIA_CURTIDA = new TB_NOTICIA_CURTIDA
             {
                 ID_APOIADOR = idApoiador,

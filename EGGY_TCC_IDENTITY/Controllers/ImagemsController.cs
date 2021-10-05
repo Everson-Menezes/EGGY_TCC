@@ -188,21 +188,20 @@ namespace EGGY_TCC_IDENTITY.Controllers
          }
         */
         // GET: Imagems/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var imagem = await _context.TB_IMAGEM
-                .FirstOrDefaultAsync(m => m.ID_IMAGEM == id);
+            var imagem = await _context.TB_IMAGEM.FindAsync(id);
             if (imagem == null)
             {
                 return NotFound();
             }
-
-            return View(imagem);
+            var imagemViewModel = new ImagemViewModel();
+            imagemViewModel.ID_Imagem = imagem.ID_IMAGEM;
+            imagemViewModel.imagemString = ConverterArquivoByteArrayEmBase64(imagem.ARQUIVO);
+            imagemViewModel.Titulo = imagem.DE_TITULO;
+            imagemViewModel.Mensagem = "";
+            return View(imagemViewModel);
         }
 
         // POST: Imagems/Delete/5
@@ -217,8 +216,12 @@ namespace EGGY_TCC_IDENTITY.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            //retornar um alerta.
-            return View(imagem);
+            var imagemViewModel = new ImagemViewModel();
+            imagemViewModel.ID_Imagem = imagem.ID_IMAGEM;
+            imagemViewModel.imagemString = ConverterArquivoByteArrayEmBase64(imagem.ARQUIVO);
+            imagemViewModel.Titulo = imagem.DE_TITULO;
+            imagemViewModel.Mensagem = "Não é possível excluir a imagem, pois ela está vinculada à uma notícia.";
+            return View(imagemViewModel);
         }
 
         private bool ImagemExists(int id)

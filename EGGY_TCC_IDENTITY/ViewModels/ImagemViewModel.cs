@@ -13,5 +13,6 @@ namespace EGGY_TCC_IDENTITY.ViewModels
         public string? CaminhoArquivo { get; set; }
         [DisplayName("Imagem")]
         public string imagemString { get; set; }
+        public string Mensagem { get; set; }
     }
 }
